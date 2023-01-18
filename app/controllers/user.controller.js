@@ -39,8 +39,8 @@ exports.findAllPublished = (req, res) => {
 
 //Retrieve objects with condition 
 exports.findAll = (req, res) => {
-   const title = req.query.title;
-   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+   const username = req.query.username;
+   var condition = username ? { username: { [Op.like]: `%${username}%` } } : null;
  
    User.findAll({ where: condition })
      .then(data => {

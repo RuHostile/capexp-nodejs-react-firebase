@@ -20,8 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 //dont forget to call sync() method in server.js
 const db = require("./app/models");
 // db.sequelize.sync()
-db.sequelize.sync({ force: true }).then(() => {
-   console.log("Drop and re-sync db.");
+db.sequelize.sync({ force: false }).then(() => {
+   console.log("'force : false ' so the database will not drop and recreate");
  });
 //   .then(() => {
 //     console.log("Synced db.");

@@ -30,10 +30,10 @@ class App extends Component {
 
         <div className="container mt-3">
           <Routes>
-            {/* <Route path="/" element={<UsersList/>} /> */}
-            {/* <Route path="/users" element={<UsersList/>} /> */}
+            <Route path="/" element={<UsersList/>} />
+            <Route path="/users" element={<UsersList/>} />
             <Route path="/add" element={<AddUser/>} />
-            {/* <Route path="/users/:id" element={<User/>} /> */}
+            <Route path="/users/:id" element={<User/>} />
           </Routes>
         </div>
       </div>

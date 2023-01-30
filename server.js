@@ -5,7 +5,8 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  //origin access control, our reacat app will make requests to the server from port:3000
+  origin: "http://localhost:3000"
 };
 
 app.use(cors(corsOptions));

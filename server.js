@@ -6,7 +6,7 @@ const app = express();
 
 var corsOptions = {
   //origin access control, our reacat app will make requests to the server from port:3000
-  origin: "http://localhost:3000"
+  origin: "http://localhost:8081"
 };
 
 app.use(cors(corsOptions));
@@ -20,8 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 //dont forget to call sync() method in server.js
 const db = require("./app/models");
 // db.sequelize.sync()
-db.sequelize.sync({ force: false }).then(() => {
-   console.log("'force : false ' so the database will not drop and recreate");
+db.sequelize.sync({ force: true }).then(() => {
+  //  console.log("'force : false ' so the database will not drop and recreate");
+  console.log("Drop and sync tables")
  });
 //   .then(() => {
 //     console.log("Synced db.");
@@ -35,7 +36,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to my capital expenditure tracker application." });
 });
 
-require("./app/routes/user.routes")(app);
+require("./app/routes/capexp.routes")(app);
 
 
 // set port, listen for requests

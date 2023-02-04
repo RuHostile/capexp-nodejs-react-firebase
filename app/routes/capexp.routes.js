@@ -1,5 +1,6 @@
 module.exports = app => {
   const users = require("../controllers/user.controller.js");
+  const projects = require("../controllers/user.controller");
 
   var router = require("express").Router();
 
@@ -24,8 +25,6 @@ module.exports = app => {
   // Delete all users
   router.delete("/", users.deleteAll);
 
-  const projects = require("../controllers/project.controller.js");
-
 
   // Create a new Project
   router.post("/", projects.create);
@@ -47,6 +46,8 @@ module.exports = app => {
 
   // Delete all Projects
   router.delete("/", projects.deleteAll);
+  
+  app.use('/api/projects,', router);
 
   app.use('/api/users', router);
 };

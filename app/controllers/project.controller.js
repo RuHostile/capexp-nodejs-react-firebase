@@ -15,11 +15,12 @@ exports.create = (req, res) => {
   //Create a Project 
   const project = {
     projectName: req.body.projectName,
-    email: req.body.email,
-    password: req.body.password
+    description: req.body.description,
+    department: req.body.department,
+    capexp: req.body.capexp
   };
   //Save Project in the database 
-  Project.create(user)
+  Project.create(project)
   .then(data => {
     res.send(data);
   })

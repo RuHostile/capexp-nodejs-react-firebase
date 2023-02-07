@@ -3,32 +3,24 @@ module.exports = app => {
  
    var router = require("express").Router();
  
-   // Create a new user
+   // Create a new expense
    router.post("/", expenses.create);
  
    // Retrieve all expenses
-   // home page for expenses
+   // home page for expenses api
    router.get("/", expenses.findAll);
  
-   // Retrieve all published expenses
-   router.get("/published", expenses.findAllPublished);
- 
-   // Retrieve a single user with id
+   // Retrieve a single expense with id
    router.get("/:id", expenses.findOne);
  
-   // Update a user with id
+   // Update a expense with id
    router.put("/:id", expenses.update);
  
-   // Delete a user with id
+   // Delete a expense with id
    router.delete("/:id", expenses.delete);
  
    // Delete all expenses
    router.delete("/", expenses.deleteAll);
- 
-   //expenses page
-   router.get("/expenses", function(req, res) {
-     res.send("About this wiki");
-   });
  
    app.use('/api/expenses', router);
  };

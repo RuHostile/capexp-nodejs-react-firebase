@@ -1,31 +1,32 @@
 const db = require("../models");
-const Project = db.projects;
+const Expense = db.expenses;
 
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Project
+// Create and Save a new Expense
 exports.create = (req, res) => {
   //validate request 
-  if (!req.body.projectName) {
+  if (!req.body.expenseName) {
     res.status(400).send({
-      message: "Content projectName cannot be empty!"
+      message: "Content expenseName cannot be empty!"
     });
     return;
   }
-  //Create a Project 
-  const project = {
-    projectName: req.body.projectName,
-    email: req.body.email,
-    password: req.body.password
+  //Create a Expense 
+  const expense = {
+    expenseName: req.body.expenseName,
+    amount: req.body.amount,
+    projectID: req.body.projectID,
+    userID: req.body.userID
   };
-  //Save Project in the database 
-  Project.create(user)
+  //Save Expense in the database 
+  Expense.create(expense)
   .then(data => {
     res.send(data);
   })
   .catch(err => {
     res.status(500).send({
-      message: err.message || "Some error occurred while creating the Project."
+      message: err.message || "Some error occurred while creating the Expense."
     });
   });
 };
@@ -33,17 +34,17 @@ exports.create = (req, res) => {
 
 //Retrieve objects with condition 
 exports.findAll = (req, res) => {
-   const projectName = req.query.projectName;
-   var condition = projectName ? { projectName: { [Op.like]: `%${projectName}%` } } : null;
+   const expenseName = req.query.expenseName;
+   var condition = expenseName ? { expenseName: { [Op.like]: `%${expenseName}%` } } : null;
  
-   Project.findAll({ where: condition })
+   Expense.findAll({ where: condition })
      .then(data => {
        res.send(data);
      })
      .catch(err => {
        res.status(500).send({
          message:
-           err.message || "Some error occurred while retrieving Projects."
+           err.message || "Some error occurred while retrieving Expenses."
        });
      });
  };
@@ -52,19 +53,19 @@ exports.findAll = (req, res) => {
  exports.findOne = (req, res) => {
    const id = req.params.id;
  
-   Project.findByPk(id)
+   Expense.findByPk(id)
      .then(data => {
        if (data) {
          res.send(data);
        } else {
          res.status(404).send({
-           message: `Cannot find Project with id=${id}.`
+           message: `Cannot find Expense with id=${id}.`
          });
        }
      })
      .catch(err => {
        res.status(500).send({
-         message: "Error retrieving Project with id=" + id
+         message: "Error retrieving Expense with id=" + id
        });
      });
  };
@@ -73,23 +74,23 @@ exports.findAll = (req, res) => {
  exports.update = (req, res) => {
    const id = req.params.id;
  
-   Project.update(req.body, {
+   Expense.update(req.body, {
      where: { id: id }
    })
      .then(num => {
        if (num == 1) {
          res.send({
-           message: "Project was updated successfully."
+           message: "Expense was updated successfully."
          });
        } else {
          res.send({
-           message: `Cannot update Project with id=${id}. Maybe Project was not found or req.body is empty!`
+           message: `Cannot update Expense with id=${id}. Maybe Expense was not found or req.body is empty!`
          });
        }
      })
      .catch(err => {
        res.status(500).send({
-         message: "Error updating Project with id=" + id
+         message: "Error updating Expense with id=" + id
        });
      });
  };
@@ -98,54 +99,54 @@ exports.findAll = (req, res) => {
  exports.delete = (req, res) => {
    const id = req.params.id;
  
-   Project.destroy({
+   Expense.destroy({
      where: { id: id }
    })
      .then(num => {
        if (num == 1) {
          res.send({
-           message: "Project was deleted successfully!"
+           message: "Expense was deleted successfully!"
          });
        } else {
          res.send({
-           message: `Cannot delete Project with id=${id}. Maybe Project was not found!`
+           message: `Cannot delete Expense with id=${id}. Maybe Expense was not found!`
          });
        }
      })
      .catch(err => {
        res.status(500).send({
-         message: "Could not delete Project with id=" + id
+         message: "Could not delete Expense with id=" + id
        });
      });
  };
 
  //Delete all objects 
  exports.deleteAll = (req, res) => {
-   Project.destroy({
+   Expense.destroy({
      where: {},
      truncate: false
    })
      .then(nums => {
-       res.send({ message: `${nums} Projects were deleted successfully!` });
+       res.send({ message: `${nums} Expenses were deleted successfully!` });
      })
      .catch(err => {
        res.status(500).send({
          message:
-           err.message || "Some error occurred while removing all Projects."
+           err.message || "Some error occurred while removing all Expenses."
        });
      });
  };
 
  //Find all objects by condition 
  exports.findAllPublished = (req, res) => {
-   Project.findAll({ where: { published: true } })
+   Expense.findAll({ where: { published: true } })
      .then(data => {
        res.send(data);
      })
      .catch(err => {
        res.status(500).send({
          message:
-           err.message || "Some error occurred while retrieving Projects."
+           err.message || "Some error occurred while retrieving Expenses."
            
        });
      });

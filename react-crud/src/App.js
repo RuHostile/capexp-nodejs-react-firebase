@@ -22,9 +22,30 @@ class App extends Component {
             </li>
             <li className="nav-item">
               <Link to={"/add"} className="nav-link">
-                Add
+                New User
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={""} className="nav-link">
+                Projects
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={""} className="nav-link">
+                New Project
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={""} className="nav-link">
+                Expenses
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={""} className="nav-link">
+                New Expense
+              </Link>
+            </li>
+          
           </div>
         </nav>
 

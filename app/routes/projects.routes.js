@@ -3,32 +3,27 @@ module.exports = app => {
  
    var router = require("express").Router();
  
-   // Create a new user
+   // Create a new project
    router.post("/", projects.create);
  
    // Retrieve all projects
-   // home page for projects
+   // home page for projects api
    router.get("/", projects.findAll);
  
    // Retrieve all published projects
    router.get("/published", projects.findAllPublished);
  
-   // Retrieve a single user with id
+   // Retrieve a single project with id
    router.get("/:id", projects.findOne);
  
-   // Update a user with id
+   // Update a project with id
    router.put("/:id", projects.update);
  
-   // Delete a user with id
+   // Delete a project with id
    router.delete("/:id", projects.delete);
  
    // Delete all projects
    router.delete("/", projects.deleteAll);
- 
-   //projects page
-   router.get("/projects", function(req, res) {
-     res.send("About this wiki");
-   });
  
    app.use('/api/projects', router);
  };

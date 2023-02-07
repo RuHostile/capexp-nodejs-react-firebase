@@ -11,6 +11,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+
 // parse requests of content-type - application/json
 app.use(express.json());
 
@@ -19,10 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 
 //dont forget to call sync() method in server.js
 const db = require("./app/models");
+
 // db.sequelize.sync()
-db.sequelize.sync({ force: true }).then(() => {
-  //  console.log("'force : false ' so the database will not drop and recreate");
-  console.log("Drop and sync tables")
+db.sequelize.sync({ force: false }).then(() => {
+   console.log("'force : false ' so the database will not drop and recreate");
+  // console.log("Drop and sync tables")
  });
 //   .then(() => {
 //     console.log("Synced db.");
@@ -36,7 +38,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to my capital expenditure tracker application." });
 });
 
-require("./app/routes/capexp.routes")(app);
+require("./app/routes/users.routes")(app);
+require("./app/routes/projects.routes")(app);
+require("./app/routes/expenses.routes")(app);
 
 
 // set port, listen for requests

@@ -1,6 +1,5 @@
 module.exports = app => {
   const users = require("../controllers/user.controller.js");
-  const projects = require("../controllers/user.controller");
 
   var router = require("express").Router();
 
@@ -8,6 +7,7 @@ module.exports = app => {
   router.post("/", users.create);
 
   // Retrieve all users
+  // home page for users
   router.get("/", users.findAll);
 
   // Retrieve all published users
@@ -24,30 +24,6 @@ module.exports = app => {
 
   // Delete all users
   router.delete("/", users.deleteAll);
-
-
-  // Create a new Project
-  router.post("/", projects.create);
-
-  // Retrieve all Projects
-  router.get("/", projects.findAll);
-
-  // Retrieve all published Projects
-  router.get("/published", projects.findAllPublished);
-
-  // Retrieve a single Project with id
-  router.get("/:id", projects.findOne);
-
-  // Update a Project with id
-  router.put("/:id", projects.update);
-
-  // Delete a Project with id
-  router.delete("/:id", projects.delete);
-
-  // Delete all Projects
-  router.delete("/", projects.deleteAll);
-  
-  app.use('/api/projects,', router);
 
   app.use('/api/users', router);
 };

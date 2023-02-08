@@ -150,7 +150,7 @@ class Project extends Component {
             <h4>Project</h4>
             <form>
               <div className="form-group">
-                <label htmlFor="projectName">projectName</label>
+                <label htmlFor="projectName">Project Name</label>
                 <input
                   type="text"
                   className="form-control"

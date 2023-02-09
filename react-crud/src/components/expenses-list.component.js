@@ -163,12 +163,6 @@ export default class ExpensesList extends Component {
                 </label>{" "}
                 {currentExpense.userID}
               </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentExpense.published ? "Published" : "Pending"}
-              </div>
                
               <Link
                 to={"/expenses/" + currentExpense.id}

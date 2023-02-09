@@ -10,7 +10,6 @@ class Expense extends Component {
     this.onChangeProjectID = this.onChangeProjectID.bind(this);
     this.onChangeUserID = this.onChangeUserID.bind(this);
     this.getExpense = this.getExpense.bind(this);
-    this.updatePublished = this.updatePublished.bind(this);
     this.updateExpense = this.updateExpense.bind(this);
     this.deleteExpense = this.deleteExpense.bind(this);
 
@@ -22,7 +21,6 @@ class Expense extends Component {
         projectID: "",
         userID: "", 
 
-        published: false,
       },
       message: "",
     };
@@ -90,31 +88,6 @@ class Expense extends Component {
       });
   }
 
-  updatePublished(status) {
-    var data = {
-      id: this.state.currentExpense.id,
-      expenseName: this.state.currentExpense.expenseName,
-      amount: this.state.currentExpense.amount,
-      projectID: this.state.currentExpense.projectID,
-      userID: this.state.currentExpense.userID,
-
-      published: status,
-    };
-
-    ExpenseDataService.update(this.state.currentExpense.id, data)
-      .then((response) => {
-        this.setState((prevState) => ({
-          currentExpense: {
-            ...prevState.currentExpense,
-            published: status,
-          },
-        }));
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
 
   updateExpense() {
     ExpenseDataService.update(this.state.currentExpense.id, this.state.currentExpense)
@@ -190,29 +163,8 @@ class Expense extends Component {
                 />
               </div>
 
-              <div className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {currentExpense.published ? "Published" : "Pending"}
-              </div>
+         
             </form>
-            {/*example of how to show and remove divs using condition checks*/}
-            {currentExpense.published ? (
-              <button
-                className="btn btn-warning"
-                onClick={() => this.updatePublished(false)}
-              >
-                UnPublish
-              </button>
-            ) : (
-              <button
-                className="btn btn-success"
-                onClick={() => this.updatePublished(true)}
-              >
-                Publish
-              </button>
-            )}
 
             <button
               className="btn btn-danger"

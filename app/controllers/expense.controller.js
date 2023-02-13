@@ -49,6 +49,8 @@ exports.findAll = (req, res) => {
      });
  };
 
+
+
  //Retrieve a single object
  exports.findOne = (req, res) => {
    const id = req.params.id;

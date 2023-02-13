@@ -25,7 +25,7 @@ class ExpenseDataService {
     return http.delete(`/expenses`);
   }
 
-  findByExpensename(expenseName) {
+  findByExpenseName(expenseName) {
     return http.get(`/expenses?expensename=${expenseName}`);
   }
 }

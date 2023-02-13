@@ -177,6 +177,15 @@ export default class ProjectsList extends Component {
               >
                 Edit
               </Link>
+              <Link
+                to={"/expenses/"}
+                type="button"
+                className="btn btn-primary"
+              >
+                Expenses
+              </Link>
+
+  
             </div>
           ) : (
             <div>

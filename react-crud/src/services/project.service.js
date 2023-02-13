@@ -25,7 +25,7 @@ class ProjectDataService {
     return http.delete(`/projects`);
   }
 
-  findByProjectname(projectName) {
+  findByProjectName(projectName) {
     return http.get(`/projects?projectname=${projectName}`);
   }
 }

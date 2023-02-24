@@ -123,7 +123,7 @@ export default class UsersList extends Component {
                   onClick={() => this.setActiveUser(user, index)}
                   key={index}
                 >
-                  {user.username}
+                  {user.email}
                 </li>
               ))}
           </ul>

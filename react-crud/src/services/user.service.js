@@ -28,6 +28,10 @@ class UserDataService {
   findByUsername(username) {
     return http.get(`/users?username=${username}`);
   }
+
+  confirmUser(email, password) {
+    return http.get(`/users/confirm?email=${email}&password=${password}`)
+  }
 }
 
 export default new UserDataService();

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ExpenseDataService from "../services/expense.service";
 
 export default class AddExpense extends Component {
@@ -15,8 +16,8 @@ export default class AddExpense extends Component {
       id: null,
       expenseName: "",
       amount: "",
-      projectID: "", 
-      userID: "",
+      projectID: sessionStorage.getItem("currentProject"), 
+      userID: sessionStorage.getItem("currentUserID"),
 
       submitted: false
     };
@@ -95,6 +96,8 @@ export default class AddExpense extends Component {
               <button className="btn btn-success" onClick={this.newExpense}>
                 Add
               </button>
+              <Link className="btn btn-outline-secondary"
+                type="button" to={"/expenses"}>Back</Link>
             </div>
           ) : (
             <div>
@@ -153,6 +156,8 @@ export default class AddExpense extends Component {
               <button onClick={this.saveExpense} className="btn btn-success">
                 Submit
               </button>
+              <Link className="btn btn-outline-secondary"
+                type="button" to={"/expenses"}>Back</Link>
             </div>
           )}
         </div>

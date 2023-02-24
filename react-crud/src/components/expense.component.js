@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ExpenseDataService from "../services/expense.service";
+import { Link } from "react-router-dom";
 import { withRouter } from "../common/with-router";
 
 class Expense extends Component {
@@ -180,6 +181,8 @@ class Expense extends Component {
             >
               Update
             </button>
+            <Link className="btn btn-outline-secondary"
+                type="button" to={"/expenses"}>Back</Link>
             <p>{this.state.message}</p>
           </div>
         ) : (

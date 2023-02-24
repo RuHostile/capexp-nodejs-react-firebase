@@ -33,7 +33,7 @@ export default class ExpensesList extends Component {
   }
 
   retrieveExpenses() {
-    ExpenseDataService.getAll()
+    ExpenseDataService.getAllwithPID(sessionStorage.getItem("currentProject"))
       .then((response) => {
         this.setState({
           expenses: response.data,
@@ -86,10 +86,12 @@ export default class ExpensesList extends Component {
 
   render() {
     const { searchExpenseName, expenses, currentExpense, currentIndex } = this.state;
+    const currentProject = sessionStorage.getItem("currentProject");
 
     return (
       <div className="list row">
         <div className="col-md-8">
+          <h4>Current Project: {currentProject}</h4>
           <div className="input-group mb-3">
             <input
               type="text"
@@ -99,13 +101,16 @@ export default class ExpensesList extends Component {
               onChange={this.onChangeSearchExpenseName}
             />
             <div className="input-group-append">
-              <button
+            <button
                 className="btn btn-outline-secondary"
                 type="button"
                 onClick={this.searchExpenseName}
               >
                 Search
               </button>
+              <Link className="btn btn-outline-primary"
+                type="button" to={"/addExpense"}>Add Expense</Link>
+              
             </div>
           </div>
         </div>
@@ -134,6 +139,8 @@ export default class ExpensesList extends Component {
           >
             Remove All
           </button>
+          <Link className="btn btn-outline-secondary"
+                type="button" to={"/dashboard"}>Back</Link>
         </div>
         <div className="col-md-6">
           {currentExpense ? (

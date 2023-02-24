@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProjectDataService from "../services/project.service";
 import { withRouter } from "../common/with-router";
+import { Link } from "react-router-dom";
 
 class Project extends Component {
   constructor(props) {
@@ -133,7 +134,7 @@ class Project extends Component {
     ProjectDataService.delete(this.state.currentProject.id)
       .then((response) => {
         console.log(response.data);
-        this.props.router.navigate("/projects");
+        this.props.router.navigate("/dashboard");
       })
       .catch((e) => {
         console.log(e);
@@ -228,6 +229,8 @@ class Project extends Component {
             >
               Update
             </button>
+            <Link className="btn btn-outline-secondary"
+                type="button" to={"/dashboard"}>Back</Link>
             <p>{this.state.message}</p>
           </div>
         ) : (

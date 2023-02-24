@@ -28,6 +28,10 @@ class ExpenseDataService {
   findByExpenseName(expenseName) {
     return http.get(`/expenses?expensename=${expenseName}`);
   }
+
+  getAllwithPID(projectID) {
+    return http.get(`/expenses/pid?projectID=${projectID}`)
+  }
 }
 
 export default new ExpenseDataService();

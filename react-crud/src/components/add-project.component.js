@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ProjectDataService from "../services/project.service";
+import NavBar from "./nav-bar.component";
 
 export default class AddProject extends Component {
   constructor(props) {
@@ -89,6 +90,7 @@ export default class AddProject extends Component {
   render() {
       return (
         <div className="submit-form">
+          <NavBar/>
           {this.state.submitted ? (
             <div>
               <h4>You submitted successfully!</h4>

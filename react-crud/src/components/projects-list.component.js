@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProjectDataService from "../services/project.service";
 import { Link } from "react-router-dom";
+import NavBar from "./nav-bar.component";
 
 export default class ProjectsList extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ export default class ProjectsList extends Component {
   }
 
   setActiveProject(project, index) {
+    sessionStorage.setItem("currentProject", JSON.stringify(project.id));
     this.setState({
       currentProject: project,
       currentIndex: index,
@@ -89,6 +91,8 @@ export default class ProjectsList extends Component {
 
     return (
       <div className="list row">
+        <NavBar/>
+        <h1>Current User: {sessionStorage.getItem("currentUser")}</h1>
         <div className="col-md-8">
           <div className="input-group mb-3">
             <input
@@ -184,7 +188,6 @@ export default class ProjectsList extends Component {
               >
                 Expenses
               </Link>
-
   
             </div>
           ) : (

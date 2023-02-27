@@ -85,29 +85,36 @@ export default class LoginPage extends Component {
             <label>
               Email or username
               <input
+              className="form-control"
+              id="expenseName"
                 name="emailOrUsername"
                 type="text"
                 value={this.state.emailOrUsername}
                 onChange={this.handleInputChange}
               />
             </label>
+            <br/>
             <label>
               Password
               <input
+              className="form-control"
+              id="expenseName"
                 name="password"
                 type="password"
                 value={this.state.password}
                 onChange={this.handleInputChange}
               />
             </label>
-            <button type="submit" >
+            <br/>
+            <button type="submit" className="btn btn-success" >
               Log in
             </button>
           </form>
         </div>
-        <Link to={"/sign-up"} className="nav-link">
+        <Link className="btn btn-outline-secondary" to={"/sign-up"}>
           Click me to sign up
         </Link>
+
       </div>
     );
   }

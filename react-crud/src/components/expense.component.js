@@ -144,24 +144,10 @@ class Expense extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="projectID">ProjectID</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="projectID"
-                  value={currentExpense.projectID}
-                  onChange={this.onChangeProjectID}
-                />
+               ProjectID : {currentExpense.projectID}
               </div>
               <div className="form-group">
-                <label htmlFor="userID">Capital Expenditure</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="userID"
-                  value={currentExpense.userID}
-                  onChange={this.onChangeUserID}
-                />
+                UserID : {currentExpense.userID}
               </div>
 
          

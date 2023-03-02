@@ -32,6 +32,10 @@ class ExpenseDataService {
   getAllwithPID(projectID) {
     return http.get(`/expenses/pid?projectID=${projectID}`)
   }
+
+  getCapExp(projectID) {
+    return http.get(`/expenses/amounts?projectID=${projectID}`)
+  }
 }
 
 export default new ExpenseDataService();

@@ -28,6 +28,10 @@ class ProjectDataService {
   findByProjectName(projectName) {
     return http.get(`/projects?projectname=${projectName}`);
   }
+
+  updateCapExp(id, capitalExpenditure){
+    return http.put(`/projects/updateCapExp${id}`, capitalExpenditure);
+  }
 }
 
 export default new ProjectDataService();

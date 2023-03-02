@@ -23,7 +23,6 @@ class App extends Component {
       <div>
         
 
-        <div className="container mt-3">
           <Routes>
             <Route path="/" element={<LoginPage/>} />
             <Route path="/sign-up" element={<SignupForm/>} />
@@ -40,7 +39,6 @@ class App extends Component {
             <Route path="/expenses/:id" element={<Expense/>} />
 
           </Routes>
-        </div>
       </div>
     );
   }

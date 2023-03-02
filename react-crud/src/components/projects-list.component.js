@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ProjectDataService from "../services/project.service";
+import ExpenseDataService from "../services/expense.service";
 import { Link } from "react-router-dom";
 import NavBar from "./nav-bar.component";
 
@@ -46,6 +47,25 @@ export default class ProjectsList extends Component {
       });
   }
 
+  getCapExp(pid, project) {
+    ExpenseDataService.getCapExp(pid)
+      .then((response) => {
+        let capexp = 0;
+        for (let i = 0; i < response.data.length; i++) {
+          capexp += response.data[i].amount;
+          
+        }        
+        project.capexp = capexp;
+        console.log("capexp : ", capexp)
+        console.log("p : ", project);
+
+        ProjectDataService.update(pid, project);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   refreshList() {
     this.retrieveProjects();
     this.setState({
@@ -60,6 +80,7 @@ export default class ProjectsList extends Component {
       currentProject: project,
       currentIndex: index,
     });
+    this.getCapExp(project.id, project);
   }
 
   removeAllProjects() {
@@ -87,11 +108,12 @@ export default class ProjectsList extends Component {
   }
 
   render() {
-    const { searchProjectName, projects, currentProject, currentIndex } = this.state;
+    const { searchProjectName, projects, currentProject, currentIndex } =
+      this.state;
 
     return (
       <div className="list row">
-        <NavBar/>
+        <NavBar />
         <h1>Current User: {sessionStorage.getItem("currentUser")}</h1>
         <div className="col-md-8">
           <div className="input-group mb-3">
@@ -173,22 +195,17 @@ export default class ProjectsList extends Component {
                 </label>{" "}
                 {currentProject.published ? "Published" : "Pending"}
               </div>
-               
+
               <Link
                 to={"/projects/" + currentProject.id}
                 type="button"
-                className="btn btn-warning"
+                className="btn btn-outline-warning"
               >
-                Edit
+                Edit Project
               </Link>
-              <Link
-                to={"/expenses/"}
-                type="button"
-                className="btn btn-primary"
-              >
-                Expenses
+              <Link to={"/expenses/"} type="button" className="btn btn-outline-primary">
+                View Expenses
               </Link>
-  
             </div>
           ) : (
             <div>

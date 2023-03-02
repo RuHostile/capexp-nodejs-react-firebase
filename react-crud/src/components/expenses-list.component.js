@@ -174,9 +174,9 @@ export default class ExpensesList extends Component {
               <Link
                 to={"/expenses/" + currentExpense.id}
                 type="button"
-                className="btn btn-warning"
+                className="btn btn-outline-warning"
               >
-                Edit
+                Edit Expense
               </Link>
             </div>
           ) : (

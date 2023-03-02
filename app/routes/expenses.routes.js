@@ -10,8 +10,12 @@ module.exports = app => {
    // home page for expenses api
    router.get("/", expenses.findAll);
 
+  // get all expenses with project ID 
    router.get("/pid", expenses.findByProjectID);
- 
+  
+  //get all expenses amounts with project ID
+  router.get("/amounts", expenses.getAmountsWithProjectID);
+
    // Retrieve a single expense with id
    router.get("/:id", expenses.findOne);
  

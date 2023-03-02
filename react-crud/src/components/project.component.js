@@ -181,14 +181,9 @@ class Project extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="capexp">Capital Expenditure</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="capexp"
-                  value={currentProject.capexp}
-                  onChange={this.onChangeCapexp}
-                />
+                <label htmlFor="capexp">Capital Expenditure : </label>
+                <p>{currentProject.capexp}</p>
+              
               </div>
 
               <div className="form-group">

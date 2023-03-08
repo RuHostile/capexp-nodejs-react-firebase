@@ -22,6 +22,16 @@ export default class NavBar extends Component {
                 New Project
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/excel"} className="nav-link">
+                Excel Dump
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/tfocr"} className="nav-link">
+                TFOCR
+              </Link>
+            </li>
           </div>
         </nav>
       </div>

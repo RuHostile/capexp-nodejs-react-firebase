@@ -78,7 +78,7 @@ export default class LoginPage extends Component {
 
   render() {
     return (
-      <div>
+      <div class="d-flex justify-content-center">
         <Alert message={this.state.alertMessage} />
         <div>
           <form onSubmit={this.handleSubmit} to={"/"}>
@@ -109,11 +109,13 @@ export default class LoginPage extends Component {
             <button type="submit" className="btn btn-success" >
               Log in
             </button>
-          </form>
-        </div>
-        <Link className="btn btn-outline-secondary" to={"/sign-up"}>
+            <Link class="btn btn-outline-secondary" to={"/sign-up"}>
           Click me to sign up
         </Link>
+          </form>
+          
+        </div>
+        
 
       </div>
     );

@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import UserDataService from "../services/user.service";
 
+
 // Initialize Userfront Core JS
 Userfront.init("demo1234");
 
@@ -94,50 +95,59 @@ export default class SignupForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="d-flex justify-content-center">
         <Alert message={this.state.alertMessage} />
         <form onSubmit={this.handleSubmit}>
-          <label>
+        <label>
             Email address
             <input
+            className="form-control"
               name="email"
               type="email"
               value={this.state.email}
               onChange={this.handleInputChange}
             />
           </label>
+          <br/>
           <label>
             Account name (custom field)
             <input
+            className="form-control"
               name="accountName"
               type="text"
               value={this.state.accountName}
               onChange={this.handleInputChange}
             />
           </label>
+          <br/>
           <label>
             Password
             <input
+            className="form-control"
               name="password"
               type="password"
               value={this.state.password}
               onChange={this.handleInputChange}
             />
           </label>
+          <br/>
           <label>
             Verify password
             <input
+            className="form-control"
               name="passwordVerify"
               type="password"
               value={this.state.passwordVerify}
               onChange={this.handleInputChange}
             />
           </label>
-          <button type="submit">Sign up</button>
-        </form>
-        <Link to={"/"} className="nav-link">
+          <br/>
+          <button className="btn btn-success" type="submit">Sign up</button>
+          <Link to={"/"} className="btn btn-outline-secondary">
           Click me to login in
         </Link>
+        </form>
+        
       </div>
     );
   }

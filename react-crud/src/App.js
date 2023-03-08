@@ -15,14 +15,13 @@ import NavBar from "./components/nav-bar.component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPage from "./components/login.component";
 import SignupForm from "./components/sign-up.component";
+import ExcelDump from "./components/excel-dump.component";
+import TensorFlowOpticalCharacterRecognition from "./components/tensorflow.component";
 
 
 class App extends Component {
   render() {
     return (
-      <div>
-        
-
           <Routes>
             <Route path="/" element={<LoginPage/>} />
             <Route path="/sign-up" element={<SignupForm/>} />
@@ -38,8 +37,10 @@ class App extends Component {
             <Route path="/addExpense" element={<AddExpense/>} />
             <Route path="/expenses/:id" element={<Expense/>} />
 
+            <Route path="/excel" element={<ExcelDump/>} />
+            <Route path="/tfocr" element={<TensorFlowOpticalCharacterRecognition/>} />
+
           </Routes>
-      </div>
     );
   }
 }

@@ -14,8 +14,8 @@ export default class AddExpense extends Component {
 
     this.state = {
       id: null,
-      expenseName: "",
-      amount: "",
+      expenseName: sessionStorage.getItem("currentDescription"),
+      amount: sessionStorage.getItem("currentTotal"),
       projectID: sessionStorage.getItem("currentProject"), 
       userID: sessionStorage.getItem("currentUserID"),
 

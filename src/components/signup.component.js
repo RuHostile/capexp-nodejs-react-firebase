@@ -15,7 +15,7 @@ export default function Signup() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential.user);
-        navigate("/landingpage");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error.message);

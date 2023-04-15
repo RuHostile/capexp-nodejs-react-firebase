@@ -26,7 +26,15 @@ export default function AddExpense() {
 
   function writeExpense() {
     if (!expenseName) {
-      setError("Please Enter a project name.");
+      setError("Please Enter an expense name.");
+      return;
+    }
+    if (!amount ) {
+      setError("Please Enter an amount")
+      return;
+    }
+    if (amount <= 0.00){
+      setError("Amount must be greate than 0.00");
       return;
     }
     const userId = user.uid;

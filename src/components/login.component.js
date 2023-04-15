@@ -15,7 +15,7 @@ export default function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(userCredential);
-        navigate("/landingpage");
+        navigate("/dashboard");
          
       })
       .catch((error) => {
@@ -28,7 +28,7 @@ export default function Login() {
   };
   return (
     <div className="App">
-      <form onSubmit={handleLogin} to={"/landingpage"}>
+      <form onSubmit={handleLogin} to={"/dashboard"}>
         <h1>Login</h1>
         {errorMessage ? <>{errorMessage}</> : <></>}
         <br/>

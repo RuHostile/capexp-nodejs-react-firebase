@@ -24,7 +24,6 @@ export default function Project() {
 
   function updateProject() {
     //update project
-    console.log(currentProject);
    update(ref(db, "/projects/" + currentProject.id),{
     projectname: projectName,
     projectdescription: description,
@@ -107,7 +106,7 @@ export default function Project() {
             </button>
           )}
 
-          <Link className="btn btn-warning" onClick={deleteProject} to={"/landingpage"}>
+          <Link className="btn btn-warning" onClick={deleteProject} to={"/dashboard"}>
             Delete
           </Link>
 
@@ -121,7 +120,7 @@ export default function Project() {
           <Link
             className="btn btn-outline-secondary"
             type="button"
-            to={"/landingPage"}
+            to={"/dashboard"}
           >
             Back
           </Link>

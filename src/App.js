@@ -1,9 +1,10 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Landingpage from "./components/landingpage.component";
 import Login from "./components/login.component";
 import Signup from "./components/signup.component";
-import ListProjects from "./components/landingpage.component";
+import ListProjects from "./components/dashboard.component";
 import OcrApi from "./components/ocrApi.component";
 import AddProject from "./components/addProject.component";
 import Project from "./components/project.component";
@@ -15,9 +16,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landingpage/>}/>
+        <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/landingpage" element={<ListProjects/>} />
+        <Route path="/dashboard" element={<ListProjects/>} />
         <Route path="/ocrapi" element={<OcrApi/>}/>
         <Route path="/addProject" element={<AddProject/>}/>
         <Route path="/project/:id" element={<Project/>}/>

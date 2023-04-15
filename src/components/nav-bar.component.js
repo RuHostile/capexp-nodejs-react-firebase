@@ -15,7 +15,7 @@ function NavBar() {
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/landingpage"} className="nav-link">
+            <Link to={"/dashboard"} className="nav-link">
               Dashboard
             </Link>
           </li>

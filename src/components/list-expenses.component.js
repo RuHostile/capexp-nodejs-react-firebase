@@ -1,8 +1,12 @@
+import "../index.css";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, onValue, update, query, equalTo } from "firebase/database";
 import AddExpense from "./addExpense.component";
+import Modal from "./Modal";
+import { AnimatePresence } from "framer-motion";
+import Expense from "./expense.component";
 
 export default function ListExpenses() {
   const [currentProject, setCurrentProject] = useState(
@@ -17,13 +21,19 @@ export default function ListExpenses() {
   const [totalSpent, setTotalSpent] = useState(
     currentProject.projectamountspent
   );
+  const [modalOpenAdd, setModalOpenAdd] = useState(false);
+  const closeAdd = () => setModalOpenAdd(false);
+  const openAdd = () => setModalOpenAdd(true);
+  const [modalOpenEdit, setModalOpenEdit] = useState(false);
+  const closeEdit = () => setModalOpenEdit(false);
+  const openEdit = () => setModalOpenEdit(true);
 
   const dbExpensesRef = ref(db, "expenses");
 
   useEffect(() => {
     retrieveExpenses();
     calculateTotal();
-    if(searchExpenseName == ""){
+    if (searchExpenseName == "") {
       setSearching(false);
     }
   }, []);
@@ -91,7 +101,7 @@ export default function ListExpenses() {
     <div className="list row">
       <div className="col-md-8">
         <h4>Current Project: {currentProject.projectname}</h4>
-        <h5>Total Spent: £{totalSpent}</h5>
+        <h5>Total Spent: £{totalSpent ? totalSpent : 0}</h5>
         <div className="input-group mb-3">
           <input
             type="text"
@@ -114,14 +124,14 @@ export default function ListExpenses() {
       <div className="col-md-6">
         <h4>Expenses List</h4>
 
-        <ul className="list-group">
+        <ul  className= "" style={{listStyleType:"none", padding:0, margin:0}}>
           {searching == true ? (
             <>
               {searchExpenseList &&
                 searchExpenseList.map((expense, index) => (
                   <li
                     className={
-                      "list-group-item " +
+                      "group-item-container " +
                       (index === currentIndex ? "active" : "")
                     }
                     onClick={() => setActiveExpense(expense, index)}
@@ -137,7 +147,7 @@ export default function ListExpenses() {
                 listExpenses.map((expense, index) => (
                   <li
                     className={
-                      "list-group-item " +
+                      "group-item-container " +
                       (index === currentIndex ? "active" : "")
                     }
                     onClick={() => setActiveExpense(expense, index)}
@@ -161,12 +171,24 @@ export default function ListExpenses() {
       <div className="col-md-6">
         {currentExpense ? (
           <div>
-            <h4>Expense Details</h4>
+            <h3>Expense Details</h3>
             <div>
               <label>
                 <strong>Expense Name:</strong>
               </label>{" "}
               {currentExpense.expensename}
+            </div>
+            <div>
+              <label>
+                <strong>Expense vendor:</strong>
+              </label>{" "}
+              {currentExpense.expensevendor}
+            </div>
+            <div>
+              <label>
+                <strong>Expense description:</strong>
+              </label>{" "}
+              {currentExpense.expensedescription}
             </div>
             <div>
               <label>
@@ -185,9 +207,10 @@ export default function ListExpenses() {
             </div>
 
             <Link
-              to={"/expense/"}
+              // to={"/expense/"}
               type="button"
               className="btn btn-outline-warning"
+              onClick={() => (modalOpenEdit ? closeEdit() : openEdit())}
             >
               Edit Expense
             </Link>
@@ -201,8 +224,32 @@ export default function ListExpenses() {
       </div>
       <div className="col-md-3">
         <h4>Add Expense</h4>
-        <AddExpense />
+
+        <button
+          className="btn btn-outline-primary"
+          type="button"
+          onClick={() => (modalOpenAdd ? closeAdd() : openAdd())}
+        >
+          Add Expense
+        </button>
       </div>
+
+      <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
+        {modalOpenAdd && (
+          <Modal
+            modalOpen={modalOpenAdd}
+            handleClose={closeAdd}
+            text={<AddExpense />}
+          />
+        )}
+        {modalOpenEdit && (
+          <Modal
+            modalOpen={modalOpenEdit}
+            handleClose={closeEdit}
+            text={<Expense/>}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

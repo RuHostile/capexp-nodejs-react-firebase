@@ -1,5 +1,110 @@
 @import-normalize;
 
+.group-item-container{
+  background-color: #f6f6f6;
+}
+
+.group-item-container:active{
+  background-color: aqua;
+}
+
+.add-project-container{
+  width: 50%;
+  align-items: center;
+  
+}
+
+.ocrapi-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.dashboard-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.sign-up-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.landingpage-container {
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   align-items: center;
+   text-align: center;
+   /* background-color:linear-gradient(to bottom right,rgb(233, 12, 233), #4e0483a0); */
+   background-image: linear-gradient(to bottom right, red, yellow);
+ }
+
+ .login-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+
+}
+
+ .lp-button-container {
+   position: absolute;
+   left: 45%;
+   bottom: 50%;
+ }
+
+ .lp-animated-1-container{
+   position:fixed;
+   top: 0;
+   left: 0;
+   width: 200px;
+   height: 200px;
+   background-color:  #4b0082a0;
+   border-radius: 40px;
+ }
+ .lp-animated-2-container{
+   position:fixed;
+   top: 0;
+   left: 70%;
+   width: 1000px;
+   height: 1000px;
+   background-color:  #5f9ea0a0;
+   border-radius: 40px;
+ }
+ .lp-animated-3-container{
+   position:fixed;
+   background: linear-gradient(
+    to right, 
+    #ffffff 0%, 
+    #ffffffa0 50%, 
+    #000000a0 50%, 
+    #000000 100%
+  );
+   left: -1000px;
+   top:400px;
+   width: 2000px;
+   height: 500px;
+}
+/* 
+.lp-animated-4-container{
+   position:fixed;
+   background-color: #9b1616a0;
+   left: 0px;
+   top: 0px;
+   width: 200px;
+   height: 200px;
+   transform: rotate(-45deg);
+
+} */
+
 .backdrop {
    position: absolute;
    top: 0;
@@ -22,4 +127,10 @@
    display: flex;
    flex-direction: column;
    align-items: center;
+   
 }
+
+.submit-form{
+  background-color: #ffffff;
+}
+

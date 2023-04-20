@@ -1,3 +1,4 @@
+import "../index.css";
 import React from "react";
 import { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
@@ -92,25 +93,28 @@ function OcrApi() {
   };
 
   return (
-    <div>
-      <NavBar />
+    <div className="dashboard-container" style={{ backgroundColor: "#1A5F7A" }}>
+      <NavBar class="row" />
 
-      <div className="row">
-        <div class="col col-lg-3">
+      <div className="d-flex">
+        <div class="col col-4 ">
           <h3>Actual image uploaded</h3>
           <p>Choose an Image</p>
           <input type="file" onChange={handleChange} accept="image/*" />
           <br />
-          <img src={image} width={400} height={550} />
+          <img src={image} style={{maxWidth: "100%", maxHeight:"100%"}} />
         </div>
 
-        <div class="col-md-6">
+        <div class="col col-4">
           <h3>Extracted text</h3>
-          <p className="matthew">{text}</p>
-
           <button onClick={handleClick} className="btn btn-secondary">
             convert to text
           </button>
+          <p className="matthew">{text}</p>
+        </div>
+
+        <div class="col col-4">
+          <h3>Invoice / Reciept Data</h3>
           <ul>
             <li>
               <label>Invoice #:</label>
@@ -158,7 +162,7 @@ function OcrApi() {
             onClick={publishInvoice}
             to={"/addExpense"}
           >
-            Publish Invoice to Project
+            Publish data to project
           </Link>
         </div>
       </div>

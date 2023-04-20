@@ -4,34 +4,113 @@ import React, { useState, useEffect } from "react";
 import { Link, Navigate, Router } from "react-router-dom";
 
 export default function Project() {
-   const [currentProject, setCurrentProject] = useState(
+  const [currentProject, setCurrentProject] = useState(
     JSON.parse(sessionStorage.getItem("currentProject"))
   );
-  const [project, setProject] = useState("");
   const [projectName, setProjectName] = useState(currentProject.projectname);
-  const [description, setDescription] = useState(currentProject.projectdescription);
-  const [department, setDepartment] = useState(currentProject.projectdepartment);
-  const [amountSpent, setAmountSpent] = useState(currentProject.projectamountspent);
+  const [description, setDescription] = useState(
+    currentProject.projectdescription
+  );
+  const [department, setDepartment] = useState(
+    currentProject.projectdepartment
+  );
+  const [fixedAssetAccount, setFixedAssetAccount] = useState(
+    currentProject.projectfixedassetaccount
+  );
+  const [assignedTo, setAssignedTo] = useState(
+    currentProject.projectassignedto
+  );
+  const [startDate, setStartDate] = useState(currentProject.projectstartdate);
+  const [status, setStatus] = useState(currentProject.projectstatus);
+  const [estimatedCost, setEstimatedCost] = useState(
+    currentProject.projectestimatedcost
+  );
   const [message, setMessage] = useState("");
+  var departmentDate = [
+    "Choose...",
+    "Maintenance",
+    "Facilities",
+    "IT",
+    "Finance",
+    "Security",
+  ];
+  var fixedAssetAccountData = [
+    "Choose...",
+    "Equipment",
+    "Buildings",
+    "Leasehold and Structures",
+    "Computer Software",
+    "Motor vehicles",
+    "Furniture and fixtures",
+  ];
+  var assignedToData = [
+    "Choose...",
+    "Sponge Bob",
+    "Bugs Bunny",
+    "Captain America",
+    "Boss Hog",
+    "Mickey mouse",
+    "Daffy Duck",
+    "Winnie Pooh",
+    "Black Panther",
+    "Green Arrow",
+    "Bart Simpson",
+    "Donald Duck",
+    "Charlie Brown",
+    "Batman",
+    "Spider Man",
+  ];
+  var statusData = [
+    "Choose...",
+    "Not started",
+    "In progress",
+    "Completed",
+    "Postponed",
+    "Business case",
+  ];
+
 
   function getProject(id) {
     //get project with id
   }
 
-  function updatePublished(status) {
+  function updatePublished(state) {
     //change punlished status
   }
 
-  function updateProject() {
+  const updateProject = (event) => {
+    event.preventDefault();
+    if (!projectName) {
+      setMessage("Please Enter a project name.");
+      return;
+    }
+    if (!department || department == "Choose"){
+      setMessage("Please choose a department.");
+      return;
+    }
+    if (!fixedAssetAccount || fixedAssetAccount == "Choose..."){
+      setMessage("Please choose a fixed asset account.");
+      return;
+    }
+    if (!status || status == "Choose..."){
+      setMessage("Please choose a status.");
+      return;
+    }
+    if (!startDate) {
+      setMessage("Please enter at start date.");
+      return;
+    }
     //update project
-   update(ref(db, "/projects/" + currentProject.id),{
-    projectname: projectName,
-    projectdescription: description,
-    projectdepartment: department,
-    projectamountspent: amountSpent,
-   })
-    
-
+    update(ref(db, "/projects/" + currentProject.id), {
+      projectname: projectName,
+      projectdescription: description,
+      projectdepartment: department,
+      projectfixedassetaccount: fixedAssetAccount,
+      projectassignedto: assignedTo,
+      projectstartdate: startDate,
+      projectstatus: status,
+      projectestimatedcost: estimatedCost,
+    });
   }
 
   //delete selected proejct
@@ -39,91 +118,137 @@ export default function Project() {
     remove(ref(db, "projects/" + currentProject.id));
   }
 
+  function setSelectItem(X) {
+    return <option>{X}</option>;
+  }
+
   return (
     <div>
       {currentProject ? (
-        <div className="edit-form">
-          <h4>Project</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="projectName">Project Name</label>
+        <div className="edit-form" style={{ color: "#EEEEEE" }}>
+          <h3 style={{ color: "#EEEEEE" }}>Project details</h3>
+          <form className="row g-3" onSubmit={updateProject}>
+            <div className="col-md-6">
+              <label className="form-label">Project name</label>
               <input
                 type="text"
-                className="form-control"
-                id="projectName"
                 defaultValue={currentProject.projectname}
-                onChange={(e) => setProjectName(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
                 className="form-control"
-                id="description"
-                defaultValue={currentProject.projectdescription}
-                onChange={(e) => setDescription(e.target.value)}
-              />
+                onChange={(e) => {
+                  setProjectName(e.target.value);
+                }}
+              ></input>
             </div>
-            <div className="form-group">
-              <label htmlFor="department">Department</label>
-              <input
+            <div className="col-md-6">
+              <label className="form-label">Department</label>
+              <select
                 type="text"
-                className="form-control"
-                id="department"
                 defaultValue={currentProject.projectdepartment}
-                onChange={(e) => setDepartment(e.target.value)}
-              />
+                className="form-select"
+                onChange={(e) => {
+                  setDepartment(e.target.value);
+                }}
+              >
+                {departmentDate.map(setSelectItem)}
+              </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="capexp">Amount Spent : £</label>
+            <div className="col-md-6">
+              <label className="form-label">Fixed asset account</label>
+              <select
+                type="text"
+                defaultValue={currentProject.projectfixedassetaccount}
+                className="form-select"
+                onChange={(e) => {
+                  setFixedAssetAccount(e.target.value);
+                }}
+              >
+                {fixedAssetAccountData.map(setSelectItem)}
+              </select>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Assigned to</label>
+              <select
+                type="text"
+                defaultValue={currentProject.projectassignedto}
+                className="form-select"
+                onChange={(e) => {
+                  setAssignedTo(e.target.value);
+                }}
+              >
+                {assignedToData.map(setSelectItem)}
+              </select>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Start date</label>
+              <input
+                type="date"
+                defaultValue={currentProject.projectstartdate}
+                className="form-control"
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                }}
+              ></input>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Estimated cost</label>
+              <input
+                type="number"
+                min="0.01" step="any"
+                defaultValue={currentProject.projectestimatedcost}
+                className="form-control"
+                onChange={(e) => {
+                  setEstimatedCost(e.target.value);
+                }}
+              ></input>
+            </div>
+            <div className="col-md-12">
+              <label className="form-label">Description</label>
+              <input
+                type="text"
+                defaultValue={currentProject.projectdescription}
+                className="form-control"
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              ></input>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Status</label>
+              <select
+                type="text"
+                defaultValue={currentProject.projectstatus}
+                className="form-select"
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                }}
+              >
+                {statusData.map(setSelectItem)}
+              </select>
+            </div>
+
+            <div className="col-md-6">
+              <label htmlFor="">Amount Spent : £</label>
               {currentProject.projectamountspent
                 ? currentProject.projectamountspent
                 : "0"}
+              <br></br>
+              <label htmlFor="">Project user ID : </label>
+              {currentProject.projectuserid}
+                <br></br>
             </div>
 
-            <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentProject.published ? "Published" : "Pending"}
+            <div className="col-3">
+              <button type="submit" className="btn btn-primary" onClick={updateProject}>
+                Update project
+              </button>
             </div>
+            <div className="col-3">
+              <button type="submit" className="btn btn-warning" onClick={deleteProject}>
+                Delete project
+              </button>
+            </div>
+            {message}
           </form>
-          {/*example of how to show and remove divs using condition checks*/}
-          {currentProject.published ? (
-            <button
-              className="btn btn-warning"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
-          ) : (
-            <button
-              className="btn btn-success"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
-
-          <Link className="btn btn-warning" onClick={deleteProject} to={"/dashboard"}>
-            Delete
-          </Link>
-
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={updateProject}
-          >
-            Update
-          </button>
-          <Link
-            className="btn btn-outline-secondary"
-            type="button"
-            to={"/dashboard"}
-          >
-            Back
-          </Link>
           <p>{message}</p>
         </div>
       ) : (

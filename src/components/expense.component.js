@@ -26,35 +26,57 @@ export default function Expense() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  var vendorData = ["Choose...", "Amazon", "Marvel", "Home Depot", "Deere", "Kshipping", "Lowes", "Loom", "Depot", "Aveva", "Bob Builders", "Ford"]
 
-  function updateExpense() {
+  const updateExpense= (event) => {
+    event.preventDefault();
+    if (!expenseName) {
+      setError("Please Enter an expense name.");
+      return;
+    } 
+    if (!vendor){
+      setError("Please choose a vendor");
+      return;
+    }  
+    if (!date) {
+      setError("Please choose a date");
+      return;
+    }   
+    if (amount <= 0.00){
+      setError("Amount must be greate than 0.00");
+      return;
+    }
+    if (!amount) {
+      setError("Please Enter an amount")
+      return;
+    }
     //update expense
-    console.log(currentExpense);
-
-    update(ref(db, "/expenses/" + currentExpense.id),{
+    update(ref(db, "/expenses/" + currentExpense.id), {
       expensename: expenseName,
       expensedescription: description,
-      expensequantity: quantity,
       expensevendor: vendor,
       expensedate: date,
       expenseamount: amount,
-     })
+    });
   }
 
   function deleteExpense() {
     //remove current expense
     remove(ref(db, "expenses/" + currentExpense.id));
+  }
 
+  function setSelectItem(X) {
+    return <option>{X}</option>;
   }
 
   return (
-    <div>
+    <div style={{color:"white"}}>
       {currentExpense ? (
         <div className="edit-form">
-          <h4>Expense</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="expenseName">Expense Name</label>
+          <h3>Expense details</h3>
+          <form className="row g-3" onSubmit={updateExpense}>
+            <div className="col-md-6">
+              <label className="form-label">Expense name</label>
               <input
                 type="text"
                 className="form-control"
@@ -63,8 +85,32 @@ export default function Expense() {
                 onChange={(e) => setExpenseName(e.target.value)}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="date">Date</label>
+            <div className="col-md-6">
+              <label className="form-label">Vendor</label>
+              <select
+                type="text"
+                className="form-control"
+                defaultValue={currentExpense.expensevendor}
+                onChange={(e) => {
+                  setVendor(e.target.value);
+                }}
+              >
+                {vendorData.map(setSelectItem)}
+              </select>
+            </div>
+            <div className="col-md-12">
+                <label className="form-label">Description</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  defaultValue={currentExpense.expensedescription}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                ></input>
+              </div>
+            <div className="col-md-6">
+              <label className="form-label">Date</label>
               <input
                 type="date"
                 className="form-control"
@@ -73,36 +119,27 @@ export default function Expense() {
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="amount">Amount</label>
+            <div className="col-md-6">
+              <label className="form-label">Amount</label>
               <input
                 type="number"
+                min="0.01" step="any"
                 className="form-control"
                 id="amount"
                 defaultValue={currentExpense.expenseamount}
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+            <div className="col-12 p-2">
+                <button type="submit" className="btn btn-primary" onClick={updateExpense}>
+                  Update expense
+                </button> 
+                <button type="submit" className="btn btn-danger" onClick={deleteExpense}>
+                  Delete expense
+                </button> 
+                {error}
+              </div>
           </form>
-          <Link
-            type="submit"
-            className="btn btn-primary"
-            onClick={updateExpense}
-            to={"/list-expenses/"+currentExpense.expenseprojectid}
-          >
-            Update
-          </Link>
-          <Link className="btn btn-danger" onClick={deleteExpense} to={"/list-expenses/"+currentExpense.expenseprojectid}>
-            Delete
-          </Link>
-
-          <Link
-            className="btn btn-outline-secondary"
-            type="button"
-            to={"/list-expenses/"+currentExpense.expenseprojectid}
-          >
-            Cancel
-          </Link>
           <p>{message}</p>
         </div>
       ) : (

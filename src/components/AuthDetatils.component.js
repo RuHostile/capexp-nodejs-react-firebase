@@ -36,7 +36,7 @@ export default function AuthDetatils() {
     <div className="nav-item">
       {authUser ? (
             <Link className="nav-link text-white text-decoration-none" variant="primary">
-              {authUser.email}
+              <p className="lead">{authUser.email}</p>
             </Link>
       ) : (
         <li className="nav-item">

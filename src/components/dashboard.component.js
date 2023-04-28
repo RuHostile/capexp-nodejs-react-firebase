@@ -1,197 +1,118 @@
-import "../index.css";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 import NavBar from "./nav-bar.component";
-import { motion, AnimatePresence } from "framer-motion";
-import Modal from "./Modal";
+import { Chart } from "chart.js/auto";
+import { CategoryScale } from "chart.js";
 import { db } from "../firebase";
-import {
-  ref,
-  onValue,
-  query,
-  orderByChild,
-  DataSnapshot,
-  set,
-} from "firebase/database";
-import Project from "./project.component";
+import { ref, onValue } from "firebase/database";
+import { useForceUpdate } from "framer-motion";
+import PieChart from "./PieChart.component";
 
-export default function ListProjects() {
-  const [project, setProject] = useState("");
+Chart.register(CategoryScale);
+
+export default function Dashboard() {
   const [projects, setProjects] = useState([]);
-  const [projectKeys, setProjectKeys] = useState([]);
-  const [currentProject, setCurrentProject] = useState("");
-  const [currentIndex, setCurrentIndex] = useState("");
-  const [searchProjectName, setSearchProjectName] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const close = () => setModalOpen(false);
-  const open = () => setModalOpen(true);
-
+  const [notStarted, setNotStarted] = useState(0);
+  const [inProgress, setInProgress] = useState(0);
+  const [complete, setComplete] = useState(0);
+  const [postponed, setPostponed] = useState(0);
+  const [businessCase, setBusinessCase] = useState(0);
   const dbProjectsRef = ref(db, "projects");
-
-  //on start
+  let Data = [
+    {
+      id: 1,
+      name: "Competed",
+      count: complete,
+    },
+    {
+      id: 2,
+      name: "In progress",
+      count: inProgress,
+    },
+    {
+      id: 3,
+      name: "Not started",
+      count: notStarted,
+    },
+    {
+      id: 4,
+      name: "Postponed",
+      count: postponed,
+    },
+    {
+      id: 5,
+      name: "Business case",
+      count: businessCase,
+    },
+  ];
+  const [chartData, setChartData] = useState({
+    labels: Data.map((data) => data.name),
+    datasets: [
+      {
+        label: "Project status",
+        data: Data.map((data) => data.count),
+        backgroundColor: [
+          "#52D726",
+          "#FFEC00",
+          "#FF7300",
+          "#FF0000",
+          "#007ED6",
+        ],
+        borderColor: "black",
+        borderWidth: 1,
+      },
+    ],
+  });
   useEffect(() => {
-    retrieveProjects();
+    getProjectStutus();
   }, []);
 
-  //read
-  function retrieveProjects() {
+  function getProjectStutus() {
     onValue(dbProjectsRef, (snapshot) => {
       setProjects([]);
       const data = snapshot.val();
       if (data !== null) {
+        let countNotStarted = 0;
+        let countInProgress = 0;
+        let countComplete = 0;
+        let countPostponed = 0;
+        let countBusinessCase = 0;
         Object.values(data).map((project) => {
-          setProjects((oldArray) => [...oldArray, project]);
+          console.log(project.projectstatus);
+          if (project.projectstatus == "Completed"){
+            incComplete()
+          }
+         
+
+          //  setProjects((oldArray) => [...oldArray, project]);
         });
+        setNotStarted(countNotStarted);
+        setInProgress(countInProgress);
+        setComplete(countComplete);
+        setBusinessCase(countBusinessCase);
+        setPostponed(countPostponed);
       }
     });
   }
 
-  function refreshList() {
-    retrieveProjects();
-    setCurrentIndex("");
-    setCurrentProject("");
+  const incComplete = () =>{
+   setComplete(complete + 1);
+   console.log("PLEASE ADD" + complete)
   }
-
-  function setActiveProject(project, index) {
-    sessionStorage.setItem("currentProject", JSON.stringify(project));
-    setCurrentProject(project);
-    setCurrentIndex(index);
-  }
-
 
   return (
-    <div
-      className=" dashboard-container"
-      style={{ backgroundColor: "#1A5F7A" }}
-    >
+    <div className="dashboard-container">
       <NavBar className="row" />
       <div className="d-flex">
-        <div className="p-2 col-7" style={{ backgroundColor: "#159895" }}>
-          <h4>Projects List</h4>
-
-          <ul className="" style={{listStyleType:"none", padding:0, margin:0}}>
-            {projects &&
-              projects.map((project, index) => (
-                <li
-                  className={
-                    "group-item-container" +
-                    (index === currentIndex ? "active" : "")
-                  }
-                  style={{border: "1px solid #ddd",
-                  marginTop: "-1px", 
-                  padding: "12px"}}
-                  onClick={() => setActiveProject(project, index)}
-                  key={index}
-                >
-                  {project.projectname}
-                </li>
-              ))}
-          </ul>
+        <div className="col-6 m-3 p-1">
+          <h4 className="display-4">Project Status</h4>
+          <div>
+            <PieChart chartData={chartData} />
+          </div>
+          <button onClick={incComplete}>display chart</button>
         </div>
-        <div className="p-2 col-5" style={{ backgroundColor: "#57C5B6" }}>
-          {currentProject ? (
-            <div>
-              <h4>Project details</h4>
-              <label>
-                <strong>
-                Project ID:{" "}
-                </strong>
-                {currentProject.id}
-              </label>
-              <div>
-                <label>
-                  <strong>Project Name:</strong>
-                </label>{" "}
-                {currentProject.projectname}
-              </div>
-              <div>
-                <label>
-                  <strong>Date:</strong>
-                </label>{" "}
-                {currentProject.projectstartdate}
-              </div>
-              <div>
-                <label>
-                  <strong>Description:</strong>
-                </label>{" "}
-                {currentProject.projectdescription}
-              </div>
-              <div>
-                <label>
-                  <strong>Department:</strong>
-                </label>{" "}
-                {currentProject.projectdepartment}
-              </div>
-              <div>
-                <label>
-                  <strong>Assigned to:</strong>
-                </label>{" "}
-                {currentProject.projectassignedto}
-              </div>
-              <div>
-                <label>
-                  <strong>Fixed asset account:</strong>
-                </label>{" "}
-                {currentProject.projectfixedassetaccount}
-              </div>
-              <div>
-                <label>
-                  <strong>Estimated cost:</strong>
-                </label>{" "}
-                {currentProject.projectestimatedcost
-                  ? "£" + `${currentProject.projectestimatedcost}`
-                  : "£0"}
-              </div>
-              <div>
-                <label>
-                  <strong>Amount Spent:</strong>
-                </label>{" "}
-                {currentProject.projectamountspent
-                  ? "£" + `${currentProject.projectamountspent}`
-                  : "£0"}
-              </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentProject.projectstatus ? currentProject.projectstatus : "add a drop down"}
-              </div>
-
-              <Link
-                // to={"/project/" + currentProject.id}
-                type="button"
-                className="btn btn-outline-warning"
-                onClick={() => (modalOpen ? close() : open())}
-
-              >
-                Edit Project
-              </Link>
-              <Link
-                to={"/list-expenses/" + currentProject.id}
-                type="button"
-                className="btn btn-outline-primary"
-                
-              >
-                View Expenses
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <br />
-              <p>Please click on a Project...</p>
-            </div>
-          )}
-        </div>
+        <div className="col-6">right</div>
       </div>
-      <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
-        {modalOpen && (
-          <Modal
-            modalOpen={modalOpen}
-            handleClose={close}
-            text={<Project/>}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

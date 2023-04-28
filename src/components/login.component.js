@@ -68,7 +68,7 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label class="form-label" for="form2Example1">
+          <label class="form-label" >
             Email address
           </label>
         </div>
@@ -81,7 +81,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label class="form-label" for="form2Example2">
+          <label class="form-label" >
             Password
           </label>
         </div>
@@ -97,7 +97,7 @@ export default function Login() {
                 value=""
                 id="form2Example31"
               />
-              <label class="form-check-label" for="form2Example31">
+              <label class="form-check-label" >
                 Remember me
               </label>
             </div>

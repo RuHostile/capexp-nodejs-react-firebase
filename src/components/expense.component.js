@@ -56,25 +56,37 @@ export default function Expense() {
       expensedescription: description,
       expensevendor: vendor,
       expensedate: date,
-      expenseamount: amount,
+      expenseamount: parseFloat(amount).toFixed(2),
     });
+    setSubmitted("Updated")
   }
 
   function deleteExpense() {
     //remove current expense
     remove(ref(db, "expenses/" + currentExpense.id));
+    setSubmitted("Deleted")
   }
 
   function setSelectItem(X) {
     return <option>{X}</option>;
   }
 
+  function handleSubmit() {
+
+  }
+
   return (
+    <div> {submitted ? (<div>
+      <div>
+          <h4 style={{color: "white"}}>You {submitted} the project successfully!</h4>
+        </div>
+    </div>) : (
+      
     <div style={{color:"white"}}>
       {currentExpense ? (
         <div className="edit-form">
           <h3>Expense details</h3>
-          <form className="row g-3" onSubmit={updateExpense}>
+          <form className="row g-3" onSubmit={handleSubmit}>
             <div className="col-md-6">
               <label className="form-label">Expense name</label>
               <input
@@ -148,6 +160,8 @@ export default function Expense() {
           <p>Please click on a Expense...</p>
         </div>
       )}
+    </div>
+    )}
     </div>
   );
 }

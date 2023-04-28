@@ -68,7 +68,7 @@ export default function Signup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label class="form-label" for="form2Example1">
+          <label class="form-label">
             Email address
           </label>
         </div>
@@ -81,7 +81,7 @@ export default function Signup() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label class="form-label" for="form2Example2">
+          <label class="form-label">
             Password
           </label>
         </div>
@@ -94,7 +94,7 @@ export default function Signup() {
             value={reEnterPassword}
             onChange={(e) => setReEnterPassword(e.target.value)}
           />
-          <label class="form-label" for="form2Example2">
+          <label class="form-label">
             Re-enter password
           </label>
         </div>

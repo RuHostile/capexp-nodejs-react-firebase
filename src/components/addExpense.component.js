@@ -4,7 +4,8 @@ import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, push, set, equalTo } from "firebase/database";
 
-export default function AddExpense() {
+const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
+
   const [currentProject, setCurrentProject] = useState(
     JSON.parse(sessionStorage.getItem("currentProject"))
   );
@@ -12,9 +13,10 @@ export default function AddExpense() {
 
   const [expenseName, setExpenseName] = useState("");
   const [vendor, setVendor] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState(eDate ? eDate : "");
+  const [description, setDescription] = useState(eDescription ? eDescription : "");
+  const [amount, setAmount] = useState(eAmount ? eAmount.replace(/,/g, "") : 0);
+  const [projectId, setProjectId] = useState(pName ? pName : currentProject.id);
   const [submitted, setSubmitted] = useState("");
 
   const [error, setError] = useState("");
@@ -24,6 +26,10 @@ export default function AddExpense() {
 
   var vendorData = ["Choose...", "Amazon", "Marvel", "Home Depot", "Deere", "Kshipping", "Lowes", "Loom", "Depot", "Aveva", "Bob Builders", "Ford"]
 
+  console.log(pName, eDate, eAmount)
+  console.log(projectId, date, amount)
+  console.log(currentProject.id)
+  
   const writeExpense = (event) => {
     event.preventDefault();
     if (!expenseName) {
@@ -57,8 +63,8 @@ export default function AddExpense() {
       expensedescription: description,
       expensevendor: vendor,
       expensedate: date,
-      expenseamount: amount,
-      expenseprojectid: currentProject.id,
+      expenseamount: parseFloat(amount).toFixed(2),
+      expenseprojectid: projectId,
       expenseuserid: userId,
     });
     setSubmitted(true);
@@ -104,7 +110,7 @@ export default function AddExpense() {
                 <label className="form-label">Vendor</label>
                 <select
                   type="text"
-                  className="form-control"
+                  className="form-select"
                   onChange={(e) => {
                     setVendor(e.target.value);
                   }}
@@ -127,6 +133,7 @@ export default function AddExpense() {
                 <input
                   type="date"
                   className="form-control"
+                  value={date}
                   onChange={(e) => {
                     setDate(e.target.value);
                   }}
@@ -138,16 +145,23 @@ export default function AddExpense() {
                   type="number"
                   min="0.01" step="any"
                   className="form-control"
+                  value={amount}
                   onChange={(e) => {
                     setAmount(e.target.value);
                   }}
                 ></input>
               </div>
-              <div className="col-12 p-2">
+              <div className="col-md-6">
                 <button type="submit" className="btn btn-primary">
                   Add new expense
                 </button> 
                 {error}
+              </div>
+              <div className="col-md-6">
+              <label className="form-label">Project ID</label>
+              <input className="form-control" 
+              defaultValue={projectId}
+              onChange={(e) => setProjectId(e.target.value)}></input>
               </div>
               </form>
         </div>
@@ -155,3 +169,4 @@ export default function AddExpense() {
     </div>
   );
 }
+export default AddExpense;

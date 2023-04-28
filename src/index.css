@@ -1,5 +1,19 @@
 @import-normalize;
 
+.project-analysis-container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.list-expenses-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
 .group-item-container{
   background-color: #f6f6f6;
 }
@@ -15,6 +29,13 @@
 }
 
 .ocrapi-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.project-list-container{
   position: absolute;
   height: 100%;
   width: 100%;

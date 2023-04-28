@@ -16,7 +16,7 @@ export default function AddProject() {
   const [startDate, setStartDate] = useState("");
   // const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState("");
-  // const [vendors, setVendors] = useState("");
+  const [summary, setSummary] = useState("");
   const [submitted, setSubmitted] = useState(null);
   const [error, setError] = useState("");
 
@@ -103,7 +103,9 @@ export default function AddProject() {
       projectstatus: status,
       projectestimatedcost: estimatedCost,
       projectdescription: description,
+      projectsummary: summary,
       projectuserid: userId,
+      projectbudgetstatus: "Under budget",
     });
     setSubmitted(true);
   }
@@ -209,7 +211,7 @@ export default function AddProject() {
                 />
               </div>
               <div className="col-md-12">
-                <label for="" className="form-label">
+                <label className="form-label">
                   Description
                 </label>
                 <input
@@ -221,7 +223,7 @@ export default function AddProject() {
                 />
               </div>
               <div className="col-md-6">
-                <label for="" className="form-label">
+                <label className="form-label">
                   Project status
                 </label>
                 <select
@@ -235,12 +237,24 @@ export default function AddProject() {
               </div>
               <div className="col-md-6">
                   <label>Amount spent : £</label>
-                  {0}
+                  {"0.00"}
                   <br></br>
                   <label>
                     Project user ID :
                   </label>
                   {user.uid}
+              </div>
+              <div className="col-md-12">
+                <label className="form-label">
+                  Summary
+                </label>
+                <textarea
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => {
+                    setSummary(e.target.value);
+                  }}
+                />
               </div>
               <div className="col-12">
                 <button type="submit" className="btn btn-primary">

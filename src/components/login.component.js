@@ -26,27 +26,6 @@ export default function Login() {
       });
   };
   return (
-    // <div className="App">
-    //   <form onSubmit={handleLogin} to={"/dashboard"}>
-    //     <h1>Login</h1>
-    //     {errorMessage ? <>{errorMessage}</> : <></>}
-    //     <br/>
-    //     <input
-    //       className="email"
-    //       placeholder="enter your email"
-    //       value={email}
-    //       onChange={(e) => setEmail(e.target.value)}
-    //     ></input>
-    //     <input
-    //       className="password"
-    //       placeholder="enter your password"
-    //       value={password}
-    //       onChange={(e) => setPassword(e.target.value)}
-    //     ></input>
-    //     <button type="submit">Login</button>
-    //   </form>
-    //   <Link to="/signup"> create an account</Link>
-    // </div>
     <div
       className="login-container d-flex  justify-content-center align-items-center"
       style={{ backgroundColor: "#57C5B6" }}
@@ -104,7 +83,7 @@ export default function Login() {
           </div>
 
           <div class="col">
-            <a href="#!">Forgot password?</a>
+            <a href="/forgot-password">Forgot password?</a>
           </div>
         </div>
 

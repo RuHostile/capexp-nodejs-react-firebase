@@ -2,6 +2,7 @@ import "../index.css";
 import React from "react";
 import { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
+import { ProgressBar } from "react-bootstrap";
 import NavBar from "./nav-bar.component";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
@@ -10,6 +11,7 @@ import AddExpense from "./addExpense.component";
 
 function OcrApi() {
   const [image, setImage] = useState("");
+  const [progress, setProgress] = useState(0);
   const [text, setText] = useState("");
 
   const [invoice, setInvoice] = useState("");
@@ -45,7 +47,6 @@ function OcrApi() {
     let regExDate = /(?<=date: )(\d+-\d+-\d+)/g;
     let regExTotal =
       /(?<=TOTAL [\$\£]?)([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?/g;
-    console.log("helllo");
     if (text.match(regExInvoice) != null) {
       setInvoice(text.match(regExInvoice)[0]);
     } else {
@@ -74,9 +75,12 @@ function OcrApi() {
     }
   };
 
-  const handleClick = () => {
+  const imageToText = () => {
     Tesseract.recognize(image, "eng", {
-      logger: (m) => console.log(m),
+      logger: (m) => {
+        console.log(m);
+        setProgress(parseInt(m.progress * 100));
+      },
     })
       .catch((err) => {
         console.error(err);
@@ -104,25 +108,38 @@ function OcrApi() {
       <NavBar class="row" />
 
       <div className="d-flex m-3">
-        <div className="col col-4" >
+        <div className="col col-4">
           <h4 className="display-6">1. Uploaded Image</h4>
-          <div className=" rounded m-1 p-1" style={{backgroundColor:"#DCDCDC", border:"1px solid black"}}>
-              <p className="lead">Choose an Image</p>
-          <input type="file" onChange={handleChange} accept="image/*" />
-          <br />
-          <img src={image} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+          <div
+            className=" rounded m-1 p-1"
+            style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}
+          >
+            <p className="lead">Choose an Image</p>
+            <input type="file" onChange={handleChange} accept="image/*" />
+            <br />
+            <img src={image} style={{ maxWidth: "100%", maxHeight: "100%" }} />
           </div>
-        
         </div>
 
         <div className="col col-4">
+          <h4 className="display-6 mr-3">2. Extracted Text</h4>{" "}
+          <ProgressBar
+            animated
+            now={progress}
+            variant={progress < 100 ? "primary" : "success"}
+          />
           <div className="d-flex">
-            <h4 className="display-6 mr-3">2. Extracted Text</h4>{" "}
-            <button onClick={handleClick} className="ml-2 btn btn-outline-secondary">
+            <button
+              onClick={imageToText}
+              className="ml-2 btn btn-outline-secondary"
+            >
               convert to text
             </button>
           </div>
-          <div className="rounded m-1 p-1" style={{ backgroundColor: "#DCDCDC", border: "1px solid black"}}>
+          <div
+            className="rounded m-1 p-1"
+            style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}
+          >
             <p className="lead">{text}</p>
           </div>
         </div>
@@ -131,12 +148,20 @@ function OcrApi() {
           <h4 className="display-6">3. Check Data</h4>
           <ul
             className="rounded m-1 p-1"
-            style={{ backgroundColor: "#DCDCDC", border: "1px solid black", listStyleType: "none"}}
+            style={{
+              backgroundColor: "#DCDCDC",
+              border: "1px solid black",
+              listStyleType: "none",
+            }}
           >
             <li>
               <label>Invoice #:</label>
               <br />
-              <input className="form-control" type="text" defaultValue={invoice}></input>
+              <input
+                className="form-control"
+                type="text"
+                defaultValue={invoice}
+              ></input>
             </li>
             <li>
               <label>Project #:</label>

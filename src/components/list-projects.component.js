@@ -11,9 +11,11 @@ import PieChart from "./PieChart.component";
 import { db } from "../firebase";
 import { ref, onValue } from "firebase/database";
 import Project from "./project.component";
+import { auth } from "../firebase";
 
 Chart.register(CategoryScale);
 export default function ListProjects() {
+  let admin = ["djb3501@gmail.com", "k39bapt@gmail.com"]
   const [projects, setProjects] = useState([]);
   const [projectKeys, setProjectKeys] = useState([]);
   const [currentProject, setCurrentProject] = useState("");
@@ -70,7 +72,7 @@ export default function ListProjects() {
       <NavBar className="row" />
       <div className="d-flex">
         <div className="p-2 col-6" style={{ backgroundColor: "" }}>
-          <h4 className="display-6">Projects List</h4>
+          <h4 className="display-4">Projects List</h4>
 
           <motion.ul
             className=""
@@ -120,7 +122,7 @@ export default function ListProjects() {
           </motion.ul>
         </div>
         <div className="p-2 m-3 col-5" style={{ backgroundColor: "" }}>
-        <h4 className="display-6">Project Details</h4>
+        <h4 className="display-4">Project Details</h4>
           {currentProject ? (
             <div className="p-2  rounded" style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}>
               <label>
@@ -192,15 +194,15 @@ export default function ListProjects() {
                   ? currentProject.projectstatus
                   : "add a drop down"}
               </div>
-
+                { admin.includes(auth.currentUser.email) &&(
               <Link
-                // to={"/project/" + currentProject.id}
                 type="button"
                 className="btn btn-warning"
                 onClick={() => (modalOpen ? close() : open())}
               >
                 Edit project
               </Link>
+                )}
               <Link
                 to={"/project-analysis"}
                 type="button"

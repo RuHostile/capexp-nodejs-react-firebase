@@ -53,11 +53,6 @@ export default function ProjectAnalysis() {
    ]
   });
 
- 
-
- const BarChartData = () => {
-   console.log("noting")
- }
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",

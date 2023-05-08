@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landingpage from "./components/landingpage.component";
 import Login from "./components/login.component";
 import Signup from "./components/signup.component";
+import ForgotPassword from "./components/forgot-password.component";
 import ListProjects from "./components/list-projects.component";
 import OcrApi from "./components/ocrApi.component";
 import AddProject from "./components/addProject.component";
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/" element={<Landingpage/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="forgot-password" element={<ForgotPassword/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/project-list" element={<ListProjects/>} />
         <Route path="/ocrapi" element={<OcrApi/>}/>

@@ -108,15 +108,14 @@ const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
               </div>
               <div className="col-md-6">
                 <label className="form-label">Vendor</label>
-                <select
+                <input
                   type="text"
-                  className="form-select"
+                  className="form-control"
                   onChange={(e) => {
                     setVendor(e.target.value);
                   }}
                 >
-                  {vendorData.map(setSelectItem)}
-                </select>
+                </input>
               </div>
               <div className="col-md-12">
                 <label className="form-label">Description</label>

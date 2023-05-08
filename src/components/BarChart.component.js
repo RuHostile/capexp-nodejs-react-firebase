@@ -9,12 +9,12 @@ export const BarChart = ({ chartData }) => {
           plugins: {
             title: {
               display: true,
-              text: "Estimated Cost vs. Actual spend"
+              text: "Estimated Cost vs. Actual spend",
             },
             legend: {
-              display: false
-            }
-          }
+              display: false,
+            },
+          },
         }}
       />
     </div>

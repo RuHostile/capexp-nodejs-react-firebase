@@ -148,6 +148,7 @@ export default function AddProject() {
                 <input
                   type="text"
                   className="form-control"
+                  data-testid="project name"
                   onChange={(e) => {
                     setProjectName(e.target.value);
                   }}

@@ -22,15 +22,15 @@ export default function ListExpenses() {
   const [totalSpent, setTotalSpent] = useState(
     currentProject.projectamountspent
   );
-  const [budgetStatus, setBudgetStatus] = useState(currentProject.projectbudgetstatus);
+  const [budgetStatus, setBudgetStatus] = useState(
+    currentProject.projectbudgetstatus
+  );
   const [modalOpenAdd, setModalOpenAdd] = useState(false);
   const closeAdd = () => setModalOpenAdd(false);
   const openAdd = () => setModalOpenAdd(true);
   const [modalOpenEdit, setModalOpenEdit] = useState(false);
   const closeEdit = () => setModalOpenEdit(false);
   const openEdit = () => setModalOpenEdit(true);
-
-  const dbExpensesRef = ref(db, "expenses");
 
   useEffect(() => {
     retrieveExpenses();
@@ -39,6 +39,8 @@ export default function ListExpenses() {
       setSearching(false);
     }
   }, []);
+
+  const dbExpensesRef = ref(db, "expenses");
 
   function retrieveExpenses() {
     //get all expenses with current project id
@@ -68,16 +70,20 @@ export default function ListExpenses() {
           }
         });
         setTotalSpent(parseFloat(newTotal).toFixed(2));
-        if (parseFloat(totalSpent) < parseFloat(currentProject.projectestimatedcost)){
+        if (
+          parseFloat(totalSpent) <
+          parseFloat(currentProject.projectestimatedcost)
+        ) {
           newBudgetStatus = "Under budget";
-        }
-        else if(parseFloat(totalSpent) > parseFloat(currentProject.projectestimatedcost)){
-          newBudgetStatus = "Over budget"
-        }
-        else{
+        } else if (
+          parseFloat(totalSpent) >
+          parseFloat(currentProject.projectestimatedcost)
+        ) {
+          newBudgetStatus = "Over budget";
+        } else {
           newBudgetStatus = "On budget";
         }
-        setBudgetStatus(newBudgetStatus)
+        setBudgetStatus(newBudgetStatus);
 
         update(ref(db, "/projects/" + currentProject.id), {
           projectbudgetstatus: newBudgetStatus,
@@ -114,26 +120,31 @@ export default function ListExpenses() {
     });
   }
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'GBP',
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "GBP",
   });
 
   return (
-    <div
-      className="list-expenses-container"
-      style={{ backgroundColor: "#002B5B" }}
-    >
+    <div className="list-expenses-container" style={{ backgroundColor: "" }}>
       <NavBar className="row" />
       <div className="d-flex">
-        <div className="col-6" style={{ color: "white" }}>
-          <h4>Current Project: {currentProject.projectname}</h4>
+        <div className="col-6 p-2" style={{ color: "" }}>
+          <h4 className="display-4"> {currentProject.projectname}</h4>
           <h5>Total Spent: {formatter.format(totalSpent)}</h5>
-          <h5>Budget: {formatter.format(currentProject.projectestimatedcost)}</h5>
+          <h5>
+            Budget: {formatter.format(currentProject.projectestimatedcost)}
+          </h5>
           <div className="">
             {currentExpense ? (
-              <div>
-                <h3>Expense Details</h3>
+              <div
+                className="p-2  rounded"
+                style={{
+                  backgroundColor: "#DCDCDC",
+                  border: "1px solid black",
+                }}
+              >
+                <h3 className="display-6">Expense Details</h3>
                 <div>
                   <label>
                     <strong>Expense Name:</strong>
@@ -168,15 +179,17 @@ export default function ListExpenses() {
                 <Link
                   // to={"/expense/"}
                   type="button"
-                  className="btn btn-outline-warning"
+                  className="btn btn-warning"
                   onClick={() => (modalOpenEdit ? closeEdit() : openEdit())}
                 >
                   Edit Expense
                 </Link>
                 <button
-                  className="btn btn-outline-primary"
+                  className="btn btn-primary"
                   type="button"
-                  onClick={() => (modalOpenAdd ? closeAdd() : openAdd(), setActiveExpense(""))}
+                  onClick={() => (
+                    modalOpenAdd ? closeAdd() : openAdd(), setActiveExpense("")
+                  )}
                 >
                   Add Expense
                 </button>
@@ -186,9 +199,11 @@ export default function ListExpenses() {
                 <br />
                 <p>Please click on a Expense...</p>
                 <button
-                  className="btn btn-outline-primary"
+                  className="btn btn-primary"
                   type="button"
-                  onClick={() => (modalOpenAdd ? closeAdd() : openAdd(), setActiveExpense(""))}
+                  onClick={() => (
+                    modalOpenAdd ? closeAdd() : openAdd(), setActiveExpense("")
+                  )}
                 >
                   Add Expense
                 </button>
@@ -197,7 +212,7 @@ export default function ListExpenses() {
           </div>
         </div>
         <div className="col-5">
-          <h4 style={{ color: "white" }}>Search Expense</h4>
+          <h4 className="display-6">Search Expense</h4>
           <input
             type="text"
             className="form-control"
@@ -206,61 +221,78 @@ export default function ListExpenses() {
             onChange={(e) => setSearchExpenseName(e.target.value)}
           />
           <div className="col-10">
-            <h4 style={{ color: "white" }}>Expenses List</h4>
+            <h4 className="display-6">Expenses List</h4>
 
             {searching == true ? (
-              <motion.ul className="" 
-              style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+              <motion.ul
+                className=""
+                style={{ listStyleType: "none", padding: 0, margin: 0 }}
+              >
                 {searchExpenseList &&
-                    searchExpenseList.map((expense, index) => (
-                      <motion.li
-                      animate={{backgroundColor: index === currentIndex ? "aqua" : "white"}}
-                        className={""}
-                        style={{border: "1px solid #ddd", marginTop: "-1px", padding: "12px"}}
-                        onClick={() => setActiveExpense(expense, index)}
-                        key={index}
-                      >
-                        {expense.expensename}
-                      </motion.li>
-                    ))}
+                  searchExpenseList.map((expense, index) => (
+                    <motion.li
+                      animate={{
+                        backgroundColor:
+                          index === currentIndex ? "aqua" : "white",
+                      }}
+                      className={""}
+                      style={{
+                        border: "1px solid #ddd",
+                        marginTop: "-1px",
+                        padding: "12px",
+                      }}
+                      onClick={() => setActiveExpense(expense, index)}
+                      key={index}
+                    >
+                      {expense.expensename}
+                    </motion.li>
+                  ))}
               </motion.ul>
             ) : (
-              <motion.ul className=""
-              style={{ listStyleType: "none", padding: 0, margin: 0 }}
+              <motion.ul
+                className=""
+                style={{ listStyleType: "none", padding: 0, margin: 0 }}
               >
                 {listExpenses &&
-                    listExpenses.map((expense, index) => (
-                      <motion.li
-                      animate={{backgroundColor: index === currentIndex ? "aqua" : "white"}}
-                        className={
-                          "group-item-container " +
-                          (index === currentIndex ? "active" : "")
-                        }
-                        style={{
-                          border: "1px solid #ddd",
-                          marginTop: "-1px",
-                          padding: "12px",
-                        }}
-                        onClick={() => setActiveExpense(expense, index) }
-                        key={index}
-                      >
-                        {expense.expensename}
-                      </motion.li>
-                    ))}
+                  listExpenses.map((expense, index) => (
+                    <motion.li
+                      animate={{
+                        backgroundColor:
+                          index === currentIndex ? "aqua" : "white",
+                      }}
+                      className={
+                        "group-item-container " +
+                        (index === currentIndex ? "active" : "")
+                      }
+                      style={{
+                        border: "1px solid #ddd",
+                        marginTop: "-1px",
+                        padding: "12px",
+                      }}
+                      onClick={() => setActiveExpense(expense, index)}
+                      key={index}
+                    >
+                      <div className="d-flex container">
+                        <div className="col-4"> {expense.expensename}</div>
+                        <div className="col-6">{expense.expensevendor}</div>
+                        <div className="col-1">£{expense.expenseamount}</div>
+                      </div>
+                    </motion.li>
+                  ))}
               </motion.ul>
             )}
-            
+
             <Link
               className="btn btn-outline-secondary"
               type="button"
-              to={"/dashboard"}
+              to={"/project-list"}
             >
               Back
             </Link>
           </div>
         </div>
         <div className="col-1">
-          <h4>
+          <h4 className="display-6">
             <br />
           </h4>
           <button
@@ -278,12 +310,14 @@ export default function ListExpenses() {
           <Modal
             modalOpen={modalOpenAdd}
             handleClose={closeAdd}
-            text={<AddExpense 
-              pName={""}
-              eAmount={""}
-              eDate={""}
-              eDescription={""}
-              />}
+            text={
+              <AddExpense
+                pName={""}
+                eAmount={""}
+                eDate={""}
+                eDescription={""}
+              />
+            }
           />
         )}
         {modalOpenEdit && (

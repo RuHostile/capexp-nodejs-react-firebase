@@ -99,7 +99,7 @@ export default function Expense() {
             </div>
             <div className="col-md-6">
               <label className="form-label">Vendor</label>
-              <select
+              <input
                 type="text"
                 className="form-control"
                 defaultValue={currentExpense.expensevendor}
@@ -107,8 +107,7 @@ export default function Expense() {
                   setVendor(e.target.value);
                 }}
               >
-                {vendorData.map(setSelectItem)}
-              </select>
+              </input>
             </div>
             <div className="col-md-12">
                 <label className="form-label">Description</label>

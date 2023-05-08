@@ -29,14 +29,17 @@ const Modal = ({ handleClose, text }) => {
       <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}  
-            className="modal orange-gradient"
+            className="container"
             variants={dropIn}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <p>{text}</p>
-            <button onClick={handleClose}>Close</button>
+            <div className="">
+              <>{text}</>
+            <button className="btn btn-outline-secondary" onClick={handleClose}>Close</button>
+            </div>
+            
           </motion.div>
       </Backdrop>
     );

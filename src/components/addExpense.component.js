@@ -4,7 +4,8 @@ import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, push, set, equalTo } from "firebase/database";
 
-export default function AddExpense() {
+const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
+
   const [currentProject, setCurrentProject] = useState(
     JSON.parse(sessionStorage.getItem("currentProject"))
   );
@@ -12,11 +13,10 @@ export default function AddExpense() {
 
   const [expenseName, setExpenseName] = useState("");
   const [vendor, setVendor] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [amount, setAmount] = useState("");
-  const [total, setTotal] = useState("");
+  const [date, setDate] = useState(eDate ? eDate : "");
+  const [description, setDescription] = useState(eDescription ? eDescription : "");
+  const [amount, setAmount] = useState(eAmount ? eAmount.replace(/,/g, "") : 0);
+  const [projectId, setProjectId] = useState(pName ? pName : currentProject.id);
   const [submitted, setSubmitted] = useState("");
 
   const [error, setError] = useState("");
@@ -24,19 +24,35 @@ export default function AddExpense() {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  function writeExpense() {
+  var vendorData = ["Choose...", "Amazon", "Marvel", "Home Depot", "Deere", "Kshipping", "Lowes", "Loom", "Depot", "Aveva", "Bob Builders", "Ford"]
+
+  console.log(pName, eDate, eAmount)
+  console.log(projectId, date, amount)
+  console.log(currentProject.id)
+  
+  const writeExpense = (event) => {
+    event.preventDefault();
     if (!expenseName) {
       setError("Please Enter an expense name.");
       return;
-    }
-    if (!amount ) {
-      setError("Please Enter an amount")
+    } 
+    if (!vendor){
+      setError("Please choose a vendor");
       return;
-    }
+    }  
+    if (!date) {
+      setError("Please choose a date");
+      return;
+    }   
     if (amount <= 0.00){
       setError("Amount must be greate than 0.00");
       return;
     }
+    if (!amount) {
+      setError("Please Enter an amount")
+      return;
+    }
+ 
     const userId = user.uid;
     const expenseId = "";
     const expenseListRef = ref(db, "expenses");
@@ -45,11 +61,10 @@ export default function AddExpense() {
       id: newExpenseRef.key,
       expensename: expenseName,
       expensedescription: description,
-      expensequantity: quantity,
       expensevendor: vendor,
       expensedate: date,
-      expenseamount: amount,
-      expenseprojectid: currentProject.id,
+      expenseamount: parseFloat(amount).toFixed(2),
+      expenseprojectid: projectId,
       expenseuserid: userId,
     });
     setSubmitted(true);
@@ -64,8 +79,12 @@ export default function AddExpense() {
     setAmount("");
   }
 
+  function setSelectItem(X) {
+    return <option>{X}</option>;
+  }
+
   return (
-    <div className="submit-form">
+    <div className="" style={{color: "white"}}>
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
@@ -75,60 +94,78 @@ export default function AddExpense() {
         </div>
       ) : (
         <div>
-          <div className="form-group">
-            <label htmlFor="expenseName">Expense Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="expenseName"
-              value={expenseName}
-              onChange={(e) => {
-                setExpenseName(e.target.value);
-              }}
-              name="expenseName"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              className="form-control"
-              id="date"
-              required
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-              name="date"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="amount">Amount</label>
-            <input
-              type="number"
-              className="form-control"
-              id="amount"
-              required
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
-              name="amount"
-            />
-          </div>
-
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={writeExpense}
-          >
-            Add Expense
-          </button>
-          {error}
+          <h3>Add expense</h3>
+          <form className="row g-3" onSubmit={writeExpense}>
+              <div className="col-md-6">
+                <label className="form-label">Expense name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => {
+                    setExpenseName(e.target.value);
+                  }}
+                ></input>
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Vendor</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => {
+                    setVendor(e.target.value);
+                  }}
+                >
+                </input>
+              </div>
+              <div className="col-md-12">
+                <label className="form-label">Description</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                ></input>
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={date}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                ></input>
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Amount</label>
+                <input
+                  type="number"
+                  min="0.01" step="any"
+                  className="form-control"
+                  value={amount}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
+                ></input>
+              </div>
+              <div className="col-md-6">
+                <button type="submit" className="btn btn-primary">
+                  Add new expense
+                </button> 
+                {error}
+              </div>
+              <div className="col-md-6">
+              <label className="form-label">Project ID</label>
+              <input className="form-control" 
+              defaultValue={projectId}
+              onChange={(e) => setProjectId(e.target.value)}></input>
+              </div>
+              </form>
         </div>
       )}
     </div>
   );
 }
+export default AddExpense;

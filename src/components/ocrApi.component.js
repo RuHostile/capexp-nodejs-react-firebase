@@ -1,11 +1,17 @@
+import "../index.css";
 import React from "react";
 import { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
+import { ProgressBar } from "react-bootstrap";
 import NavBar from "./nav-bar.component";
 import { Link } from "react-router-dom";
+import Modal from "./Modal";
+import { motion, AnimatePresence } from "framer-motion";
+import AddExpense from "./addExpense.component";
 
 function OcrApi() {
   const [image, setImage] = useState("");
+  const [progress, setProgress] = useState(0);
   const [text, setText] = useState("");
 
   const [invoice, setInvoice] = useState("");
@@ -13,6 +19,9 @@ function OcrApi() {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [total, setTotal] = useState("");
+  const [modalOpen, setModalOpen] = useState("");
+  const close = () => setModalOpen(false);
+  const open = () => setModalOpen(true);
 
   const handleChange = (event) => {
     setImage(URL.createObjectURL(event.target.files[0]));
@@ -33,12 +42,11 @@ function OcrApi() {
 
   const textExtract = (text) => {
     let regExInvoice = /(?<=INVOICE # )\d+/g;
-    let regExDescription = /(?<=DESCRIPTION ).+/g;
-    let regExProject = /(?<=Project Number: )\d+/g;
-    let regExDate = /(?<=DATE )\d+\/\d+\/\d+/g;
+    let regExDescription = /(?<=DESCRIPTION AMOUNT)((.|\n)*)(?=TOTAL)/g;
+    let regExProject = /(?<=Project #: )([^\s]+)/g;
+    let regExDate = /(?<=date: )(\d+-\d+-\d+)/g;
     let regExTotal =
       /(?<=TOTAL [\$\£]?)([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?/g;
-
     if (text.match(regExInvoice) != null) {
       setInvoice(text.match(regExInvoice)[0]);
     } else {
@@ -47,8 +55,9 @@ function OcrApi() {
     if (text.match(regExDescription) != null) {
       setDescription(text.match(regExDescription)[0]);
     } else {
-      setProject("Please Fill");
+      setDescription("Please Fill");
     }
+
     if (text.match(regExProject) != null) {
       setProject(text.match(regExProject)[0]);
     } else {
@@ -66,9 +75,12 @@ function OcrApi() {
     }
   };
 
-  const handleClick = () => {
+  const imageToText = () => {
     Tesseract.recognize(image, "eng", {
-      logger: (m) => console.log(m),
+      logger: (m) => {
+        console.log(m);
+        setProgress(parseInt(m.progress * 100));
+      },
     })
       .catch((err) => {
         console.error(err);
@@ -82,7 +94,7 @@ function OcrApi() {
   };
 
   const publishInvoice = () => {
-    sessionStorage.setItem("currentProject", JSON.stringify(parseInt(project)));
+    sessionStorage.setItem("currentProject", JSON.stringify(project));
     sessionStorage.setItem("currentDescription", JSON.stringify(description));
     sessionStorage.setItem("currentDate", JSON.stringify(date));
     sessionStorage.setItem(
@@ -92,35 +104,70 @@ function OcrApi() {
   };
 
   return (
-    <div>
-      <NavBar />
+    <div className="dashboard-container" style={{ backgroundColor: "" }}>
+      <NavBar class="row" />
 
-      <div className="row">
-        <div class="col col-lg-3">
-          <h3>Actual image uploaded</h3>
-          <p>Choose an Image</p>
-          <input type="file" onChange={handleChange} accept="image/*" />
-          <br />
-          <img src={image} width={400} height={550} />
+      <div className="d-flex m-3">
+        <div className="col col-4">
+          <h4 className="display-6">1. Uploaded Image</h4>
+          <div
+            className=" rounded m-1 p-1"
+            style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}
+          >
+            <p className="lead">Choose an Image</p>
+            <input type="file" onChange={handleChange} accept="image/*" />
+            <br />
+            <img src={image} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+          </div>
         </div>
 
-        <div class="col-md-6">
-          <h3>Extracted text</h3>
-          <p className="matthew">{text}</p>
+        <div className="col col-4">
+          <h4 className="display-6 mr-3">2. Extracted Text</h4>{" "}
+          <ProgressBar
+            animated
+            now={progress}
+            variant={progress < 100 ? "primary" : "success"}
+          />
+          <div className="d-flex">
+            <button
+              onClick={imageToText}
+              className="ml-2 btn btn-outline-secondary"
+            >
+              convert to text
+            </button>
+          </div>
+          <div
+            className="rounded m-1 p-1"
+            style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}
+          >
+            <p className="lead">{text}</p>
+          </div>
+        </div>
 
-          <button onClick={handleClick} className="btn btn-secondary">
-            convert to text
-          </button>
-          <ul>
+        <div class="col col-4">
+          <h4 className="display-6">3. Check Data</h4>
+          <ul
+            className="rounded m-1 p-1"
+            style={{
+              backgroundColor: "#DCDCDC",
+              border: "1px solid black",
+              listStyleType: "none",
+            }}
+          >
             <li>
               <label>Invoice #:</label>
               <br />
-              <input type="text" defaultValue={invoice}></input>
+              <input
+                className="form-control"
+                type="text"
+                defaultValue={invoice}
+              ></input>
             </li>
             <li>
               <label>Project #:</label>
               <br />
               <input
+                className="form-control"
                 type="text"
                 defaultValue={project}
                 onChange={onChangeProject}
@@ -130,6 +177,7 @@ function OcrApi() {
               <label>Description:</label>
               <br />
               <input
+                className="form-control"
                 type="text"
                 defaultValue={description}
                 onChange={onChangeDescription}
@@ -138,7 +186,8 @@ function OcrApi() {
             <li>
               <label>Date:</label> <br />
               <input
-                type="text"
+                className="form-control"
+                type="date"
                 defaultValue={date}
                 onChange={onChangeDate}
               ></input>
@@ -147,6 +196,7 @@ function OcrApi() {
               <label>Total: £</label>
               <br />
               <input
+                className="form-control"
                 type="text"
                 defaultValue={total}
                 onChange={onChangeTotal}
@@ -155,13 +205,40 @@ function OcrApi() {
           </ul>
           <Link
             class="btn btn-primary"
-            onClick={publishInvoice}
-            to={"/addExpense"}
+            // onClick={publishInvoice}
+            // to={"/addExpense"}
+            onClick={() => (modalOpen ? close() : open())}
           >
-            Publish Invoice to Project
+            Publish data to project
           </Link>
         </div>
       </div>
+      <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
+        {modalOpen && (
+          <Modal
+            modalOpen={modalOpen}
+            handleClose={close}
+            text={
+              <div className="row">
+                <div className="col-6">
+                  <img
+                    src={image}
+                    style={{ maxWidth: "100%", maxHeight: "100%" }}
+                  />
+                </div>
+                <div className="col-6">
+                  <AddExpense
+                    pName={project}
+                    eDate={date}
+                    eDescription={description}
+                    eAmount={total}
+                  />
+                </div>
+              </div>
+            }
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

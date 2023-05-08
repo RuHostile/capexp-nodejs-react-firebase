@@ -16,24 +16,33 @@ export default function AuthDetatils() {
       } else {
         setAuthUser(null);
         if (location.pathname != "/signup") {
-          navigate("/");
+          navigate("/login");
         }
       }
     });
 
     return () => {
       listen();
-    }
+    };
   }, []);
 
-  const userSignOut = () =>{
-   signOut(auth).then(() => 
-   console.log('sign out successful')).catch(error => console.log(error))
-  }
+  const userSignOut = () => {
+    signOut(auth)
+      .then(() => console.log("sign out successful"))
+      .catch((error) => console.log(error));
+  };
 
   return (
-    <div>
-      {authUser ? <p className="nav-link justify-content-end">{authUser.email} <a onClick={userSignOut} href="/">Sign Out?</a> </p>: <p>Singed Out</p>}
+    <div className="nav-item">
+      {authUser ? (
+            <Link className="nav-link text-white text-decoration-none" variant="primary">
+              <p className="lead">{authUser.email}</p>
+            </Link>
+      ) : (
+        <li className="nav-item">
+        <Link className="nav-link text-white text-decoration-none" to="/login"> Signin </Link>
+        </li>
+      )}
     </div>
   );
 }

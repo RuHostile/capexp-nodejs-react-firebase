@@ -10,7 +10,6 @@ import { PieChart } from "./PieChart.component";
 // import { PieChart } from "./PieChart.component";
 
 export default function Dashboard() {
-  const [projects, setProjects] = useState([]);
   const dbProjectsRef = ref(db, "projects");
 
   const [dataStatusCount, setDataStatusCount] = useState([]);
@@ -22,7 +21,6 @@ export default function Dashboard() {
 
   function getProjectStutus() {
     onValue(dbProjectsRef, (snapshot) => {
-      setProjects([]);
       let completeCount = 0;
       let inProgresCount = 0;
       let notStartedCount = 0;
@@ -61,7 +59,6 @@ export default function Dashboard() {
           <div>{dataStatusCount && <PieChart statusData={dataStatusCount}/>}</div>
         </div>
         <div className="col-3 m-3 p-1">
-        {/* <h4 className="display-4"><br/></h4> */}
 
           <h2 className="display-4">Welcome to my Capital Expenditure Tracker web app!</h2>
           <p className="lead">Track and manage your company's expenses effortlessly with my user-friendly platform. Enjoy real-time updates, customizable categories, and secure cloud storage. </p>

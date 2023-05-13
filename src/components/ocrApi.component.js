@@ -1,5 +1,5 @@
 import "../index.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
 import { ProgressBar } from "react-bootstrap";
@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import { motion, AnimatePresence } from "framer-motion";
 import AddExpense from "./addExpense.component";
+import { ref, onValue } from "firebase/database";
+import { db } from "../firebase";
 
 function OcrApi() {
   const [image, setImage] = useState("");
@@ -16,12 +18,16 @@ function OcrApi() {
 
   const [invoice, setInvoice] = useState("");
   const [project, setProject] = useState("");
+  const [projects, setProjects] = useState([]);
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [total, setTotal] = useState("");
   const [modalOpen, setModalOpen] = useState("");
   const close = () => setModalOpen(false);
   const open = () => setModalOpen(true);
+  const dbProjectsRef = ref(db, "projects");
+  const [currentIndex, setCurrentIndex] = useState("");
+  const [currentProject, setCurrentProject] = useState("");
 
   const handleChange = (event) => {
     setImage(URL.createObjectURL(event.target.files[0]));
@@ -39,6 +45,29 @@ function OcrApi() {
   function onChangeTotal(e) {
     setTotal(e.target.value);
   }
+
+  function setActiveProject(project, index) {
+    sessionStorage.setItem("currentProject", JSON.stringify(project));
+    setCurrentProject(project);
+    setCurrentIndex(index);
+  }
+
+  function getProjects() {
+    onValue(dbProjectsRef, (snapshot) => {
+      setProjects(["Choose..."]);
+      const data = snapshot.val();
+      if (data !== null) {
+        Object.values(data).map((project) => {
+          setProjects((oldArray) => [...oldArray, [project.projectname, ":" ,project.id]]);
+        });
+      }
+    });
+  }
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
 
   const textExtract = (text) => {
     let regExInvoice = /(?<=INVOICE # )\d+/g;
@@ -103,6 +132,11 @@ function OcrApi() {
     );
   };
 
+  
+  function setSelectItem(X) {
+    return <option>{X}</option>;
+  };
+
   return (
     <div className="dashboard-container" style={{ backgroundColor: "" }}>
       <NavBar class="row" />
@@ -141,6 +175,18 @@ function OcrApi() {
             style={{ backgroundColor: "#DCDCDC", border: "1px solid black" }}
           >
             <p className="lead">{text}</p>
+          </div>
+          <div>
+            Choose Project:
+            <select
+              type="text"
+              className="form-select"
+              onChange={(e) => {
+                setProject(e.target.value.match(":(.*)")[1]);
+              }}
+            >
+              {projects.map(setSelectItem)}
+              </select>
           </div>
         </div>
 

@@ -31,25 +31,7 @@ export default function Signup() {
 
   return (
     <div className="sign-up-container d-flex  justify-content-center align-items-center" style={{backgroundColor:"#57C5B6"}}>
-      {/* <form onSubmit={createAccount}>
-        <h1>Create Account</h1>
-        {errorMessage ? <>{errorMessage}</> : <></>}
-        <br />
-        <input
-          className="email"
-          placeholder="enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        ></input>
-        <input
-          className="password"
-          placeholder="enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <button type="submit">Create account</button>
-      </form>
-      <Link to="/login">Login</Link> */}
+
 
       <form
         onSubmit={createAccount}
@@ -58,7 +40,7 @@ export default function Signup() {
         style={{ backgroundColor: "#159895", width:"350px" }}
       >
         <h1>Register Account</h1>
-        {errorMessage ? <>{errorMessage}</> : <></>}
+        {errorMessage ? <p className="error">{errorMessage}</p> : <></>}
         <div class="form-outline mb-4">
           <input
             type="email"

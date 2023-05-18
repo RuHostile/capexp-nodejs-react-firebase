@@ -113,7 +113,6 @@ export default function ListExpenses() {
     setSearchExpenseList([]);
     listExpenses.forEach((expense) => {
       let eName = expense.expensename.toLowerCase();
-      console.log(expense.expensename);
       if (eName.includes(searchExpenseName.toLowerCase())) {
         setSearchExpenseList((oldArray) => [...oldArray, expense]);
       }

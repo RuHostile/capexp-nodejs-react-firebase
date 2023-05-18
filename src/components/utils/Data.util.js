@@ -30,33 +30,3 @@ export const Data = [
      userLost: 234
    }
  ];
-
-//  const [dataUseState, setData] = useState(
-//   [
-//     {
-//       id: 1,
-//       name: "Competed",
-//       count: "complete",
-//     },
-//     {
-//       id: 2,
-//       name: "In progress",
-//       count: 1,
-//     },
-//     {
-//       id: 3,
-//       name: "Not started",
-//       count: 1,
-//     },
-//     {
-//       id: 4,
-//       name: "Postponed",
-//       count: 1,
-//     },
-//     {
-//       id: 5,
-//       name: "Business case",
-//       count: 1,
-//     },
-//   ]
-// )

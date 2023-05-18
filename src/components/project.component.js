@@ -85,7 +85,7 @@ export default function Project() {
       setMessage("Please Enter a project name.");
       return;
     }
-    if (!department || department == "Choose") {
+    if (!department || department == "Choose...") {
       setMessage("Please choose a department.");
       return;
     }

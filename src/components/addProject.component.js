@@ -73,7 +73,7 @@ export default function AddProject() {
       setError("Please Enter a project name.");
       return;
     }
-    if (!department || department == "Choose"){
+    if (!department || department == "Choose..."){
       setError("Please choose a department.");
       return;
     }

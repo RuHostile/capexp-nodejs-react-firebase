@@ -26,9 +26,6 @@ const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
 
   var vendorData = ["Choose...", "Amazon", "Marvel", "Home Depot", "Deere", "Kshipping", "Lowes", "Loom", "Depot", "Aveva", "Bob Builders", "Ford"]
 
-  console.log(pName, eDate, eAmount)
-  console.log(projectId, date, amount)
-  console.log(currentProject.id)
   
   const writeExpense = (event) => {
     event.preventDefault();
@@ -119,13 +116,14 @@ const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
               </div>
               <div className="col-md-12">
                 <label className="form-label">Description</label>
-                <input
+                <textarea
                   type="text"
                   className="form-control"
+                  value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
-                ></input>
+                ></textarea>
               </div>
               <div className="col-md-6">
                 <label className="form-label">Date</label>
@@ -160,6 +158,7 @@ const AddExpense = ({pName, eDate, eDescription, eAmount}) => {
               <label className="form-label">Project ID</label>
               <input className="form-control" 
               defaultValue={projectId}
+              disabled = {true}
               onChange={(e) => setProjectId(e.target.value)}></input>
               </div>
               </form>

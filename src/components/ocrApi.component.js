@@ -46,11 +46,7 @@ function OcrApi() {
     setTotal(e.target.value);
   }
 
-  function setActiveProject(project, index) {
-    sessionStorage.setItem("currentProject", JSON.stringify(project));
-    setCurrentProject(project);
-    setCurrentIndex(index);
-  }
+
 
   function getProjects() {
     onValue(dbProjectsRef, (snapshot) => {
@@ -58,7 +54,10 @@ function OcrApi() {
       const data = snapshot.val();
       if (data !== null) {
         Object.values(data).map((project) => {
-          setProjects((oldArray) => [...oldArray, [project.projectname, ":" ,project.id]]);
+          setProjects((oldArray) => [
+            ...oldArray,
+            [project.projectname, ":", project.id],
+          ]);
         });
       }
     });
@@ -68,14 +67,13 @@ function OcrApi() {
     getProjects();
   }, []);
 
-
   const textExtract = (text) => {
     let regExInvoice = /(?<=INVOICE # )\d+/g;
     let regExDescription = /(?<=DESCRIPTION AMOUNT)((.|\n)*)(?=TOTAL)/g;
     let regExProject = /(?<=Project #: )([^\s]+)/g;
     let regExDate = /(?<=date: )(\d+-\d+-\d+)/g;
     let regExTotal =
-      /(?<=TOTAL [\$\£]?)([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?/g;
+      /(?<=TOTAL[\s\s][\$\£]?)([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?/g;
     if (text.match(regExInvoice) != null) {
       setInvoice(text.match(regExInvoice)[0]);
     } else {
@@ -132,10 +130,9 @@ function OcrApi() {
     );
   };
 
-  
   function setSelectItem(X) {
     return <option>{X}</option>;
-  };
+  }
 
   return (
     <div className="dashboard-container" style={{ backgroundColor: "" }}>
@@ -177,7 +174,7 @@ function OcrApi() {
             <p className="lead">{text}</p>
           </div>
           <div>
-            Choose Project:
+            <h4 className="display-6 mr-3">3. Choose Project</h4>
             <select
               type="text"
               className="form-select"
@@ -186,12 +183,12 @@ function OcrApi() {
               }}
             >
               {projects.map(setSelectItem)}
-              </select>
+            </select>
           </div>
         </div>
 
         <div class="col col-4">
-          <h4 className="display-6">3. Check Data</h4>
+          <h4 className="display-6">4. Check Data</h4>
           <ul
             className="rounded m-1 p-1"
             style={{
@@ -253,7 +250,7 @@ function OcrApi() {
             class="btn btn-primary"
             // onClick={publishInvoice}
             // to={"/addExpense"}
-            onClick={() => (modalOpen ? close() : open())}
+            onClick={() => (modalOpen && project == "" ? close() : open())}
           >
             Publish data to project
           </Link>

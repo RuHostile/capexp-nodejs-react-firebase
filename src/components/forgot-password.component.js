@@ -13,11 +13,9 @@ export default function ForgotPassword() {
     e.preventDefault();
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        console.log(e.result);
         navigate("/login");
       })
       .catch((error) => {
-        console.log(error);
         setErrorMessage(error.message);
       });
   };

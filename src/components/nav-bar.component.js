@@ -14,7 +14,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
 function NavBar() {
-  let admin = ["djb3501@gmail.com", "k39bapt@gmail.com"]
+  let accountant = ["djb3501@gmail.com", "k39bapt@gmail.com"]
   const [modalOpen, setModalOpen] = useState(false);
   const [animated, setAnimated] = useState(false);
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ function NavBar() {
       >
         <p className="lead">Project List</p>
       </motion.div>
-      { admin.includes(auth.currentUser.email) && (
+      { accountant.includes(auth.currentUser.email) && (
       <motion.div
         className="p-2"
         whileHover={{

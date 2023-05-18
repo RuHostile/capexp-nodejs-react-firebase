@@ -15,7 +15,7 @@ export const PieChart = (statusData) => {
     ],
     datasets: [
       {
-        label: "# of Votes",
+        label: "Amount",
         data: [
           statusData.statusData[0],
           statusData.statusData[1],

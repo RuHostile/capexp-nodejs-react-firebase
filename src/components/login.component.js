@@ -37,7 +37,7 @@ export default function Login() {
         style={{ backgroundColor: "#159895", width: "350px" }}
       >
         <h1>Login</h1>
-        {errorMessage ? <>{errorMessage}</> : <></>}
+        {errorMessage ? <p className="error">{errorMessage}</p> : <></>}
         <div class="form-outline mb-4">
           <input
             type="email"
